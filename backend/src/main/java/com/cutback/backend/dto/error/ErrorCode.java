@@ -1,10 +1,21 @@
 package com.cutback.backend.dto.error;
 
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
 public enum ErrorCode {
-    UNAUTHORIZED,
-    ACCESS_DENIED,
-    BAD_REQUEST,
-    NOT_FOUND,
-    INTERNAL_ERROR,
-    VALIDATION_ERROR
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST),
+    NOT_FOUND(HttpStatus.NOT_FOUND),
+    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
+    VALIDATION_ERROR(HttpStatus.BAD_REQUEST),
+    BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED);
+
+    private final HttpStatus status;
+
+    ErrorCode(HttpStatus status) {
+        this.status = status;
+    }
 }

@@ -50,6 +50,13 @@ public class BasicValidator<T> {
                             Optional<T> foundEntity,
                             Errors errors) {
         if (foundEntity.isPresent()) {
+            Object entityId = getIdValue(entity);
+            Object foundId = getIdValue(foundEntity.get());
+
+            if (foundId.equals(entityId)) {
+                return;
+            }
+
             errors.rejectValue(field, ConstraintViolationCodes.UNIQUE);
         }
     }
@@ -74,7 +81,7 @@ public class BasicValidator<T> {
         try {
             return ID_FIELD.get(entity);
         } catch (IllegalAccessException e) {
-            throw new CutbackException("", ErrorCode.INTERNAL_ERROR);//TODO write error
+            throw new CutbackException("Could not get id value", ErrorCode.INTERNAL_ERROR);
         }
     }
 }

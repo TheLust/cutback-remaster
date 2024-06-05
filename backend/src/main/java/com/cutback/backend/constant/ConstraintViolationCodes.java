@@ -7,7 +7,7 @@ public interface ConstraintViolationCodes {
     }
 
     String REQUIRED = "required";
-    String LENGTH = "length {\"min\": {min}, \"max\": {max}}";
+    String LENGTH = "length(min:{min}, max:{max})";
     String EMAIL = "email";
     String PAST = "past";
     String UNIQUE = "unique";

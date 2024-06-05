@@ -2,6 +2,7 @@ package com.cutback.backend.controller;
 
 import com.cutback.backend.dto.request.AuthRequest;
 import com.cutback.backend.facade.AuthFacade;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AuthController {
     private final AuthFacade authFacade;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest,
+    public ResponseEntity<String> login(@RequestBody @Valid AuthRequest authRequest,
                                         BindingResult bindingResult) {
         return new ResponseEntity<>(
                 authFacade.login(authRequest, bindingResult),

@@ -1,14 +1,14 @@
 package com.cutback.backend.dto.error;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
 
-@Builder
 @Getter
 @Setter
+@AllArgsConstructor
 public class ErrorResponse {
 
     private String message;
