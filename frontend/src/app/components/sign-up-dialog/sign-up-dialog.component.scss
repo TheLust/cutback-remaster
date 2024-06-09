@@ -1,0 +1,26 @@
+mat-dialog-actions {
+  justify-content: space-between;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-card {
+  margin-bottom: 10px;
+  border-color: var(--mdc-outlined-text-field-error-focus-outline-color);
+
+  mat-card-content {
+    text-align: center;
+    color: var(--mat-form-field-error-text-color);
+  }
+}
+
+#title {
+  text-align: center;
+}
+
+#password-visibility-toggle {
+  margin-right: 6px;
+}
+

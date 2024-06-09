@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <div id="title-container">
+    <button mat-icon-button
+            (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>{{ 'title' | transloco }}</h1>
+  </div>
+  <div *ngIf="profile" class="profile-container">
+    auth
+  </div>
+  <div *ngIf="!profile" class="profile-container">
+    <button mat-raised-button
+            (click)="login()">Sign in</button>
+  </div>
+</mat-toolbar>

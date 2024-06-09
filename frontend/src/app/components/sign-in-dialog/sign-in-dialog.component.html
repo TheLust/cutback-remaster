@@ -1,0 +1,42 @@
+<h2 id="title" mat-dialog-title>{{ 'auth.signIn' | transloco }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-card *ngIf="badCredentials" appearance="outlined">
+      <mat-card-content>
+        {{ 'auth.badCredentials' | transloco }}
+      </mat-card-content>
+    </mat-card>
+    <mat-form-field>
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-label>Username</mat-label>
+      <input matInput
+             formControlName="username">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput
+             [type]="hidePassword ? 'password' : 'text'"
+             formControlName="password">
+      <button mat-icon-button
+              matSuffix
+              type="button"
+              id="password-visibility-toggle"
+              (click)="hidePassword = !hidePassword">
+        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button
+          [disabled]="spinner"
+          (click)="signUp()">
+    {{ 'auth.signUp' | transloco }}
+  </button>
+  <button mat-button
+          [disabled]="spinner"
+          (click)="signIn()">
+    {{ 'auth.signIn' | transloco }}
+  </button>
+</mat-dialog-actions>
+<app-progress-spinner *ngIf="spinner"/>
