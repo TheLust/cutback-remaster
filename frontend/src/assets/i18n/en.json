@@ -1,0 +1,17 @@
+{
+  "title": "Cutback",
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "badCredentials": "Incorrect username or password"
+  },
+  "field": {
+    "username": "Username",
+    "password": "Password"
+  },
+  "violationCode": {
+    "required": "is required",
+    "minlength": "must have at least {requiredLength} characters",
+    "maxlength": "must have {requiredLength} or less characters"
+  }
+}

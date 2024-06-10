@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
 import { MatFormField, MatInput, MatLabel, MatPrefix, MatSuffix } from "@angular/material/input";
 import { AuthService } from "../../services/auth/auth.service";
-import { TranslocoPipe } from "@ngneat/transloco";
+import { TranslocoPipe, TranslocoService } from "@ngneat/transloco";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -14,6 +14,7 @@ import { NgIf } from "@angular/common";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
+import { BaseFormComponent } from "../util/base-form-component";
 
 @Component({
   selector: 'app-sign-in-dialog',
@@ -41,45 +42,33 @@ import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
   templateUrl: './sign-in-dialog.component.html',
   styleUrl: './sign-in-dialog.component.scss'
 })
-export class SignInDialogComponent {
-
-  private _spinner: boolean = false;
-  private set spinner(spinner: boolean) {
-    this._spinner = spinner;
-    this.dialogRef.disableClose = spinner;
-    if (spinner) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
-
-  public get spinner() {
-    return this._spinner;
-  }
+export class SignInDialogComponent extends BaseFormComponent{
 
   hidePassword: boolean;
   badCredentials: boolean;
-  form: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<SignInDialogComponent>,
+              private translocoService: TranslocoService,
               private authService: AuthService) {
+    super(
+      translocoService,
+      new FormGroup({
+        username: new FormControl(
+          '',
+          [
+            Validators.required
+          ]
+        ),
+        password: new FormControl(
+          '',
+          [
+            Validators.required
+          ]
+        )
+      })
+    );
     this.hidePassword = true;
     this.badCredentials = false;
-    this.form = new FormGroup({
-      username: new FormControl(
-        '',
-        [
-          Validators.required
-        ]
-      ),
-      password: new FormControl(
-        '',
-        [
-          Validators.required
-        ]
-      )
-    });
   }
 
   public signUp() {
@@ -99,12 +88,14 @@ export class SignInDialogComponent {
             token: token
           });
         }).catch(error => {
-        const errorResponse: ErrorResponse = parseErrorResponse(error);
-        if (errorResponse.errorCode == ErrorCode.BAD_CREDENTIALS) {
-          this.badCredentials = true;
-        } else {
-          handle(errorResponse);
-        }
+          console.log(error);
+          const errorResponse: ErrorResponse = parseErrorResponse(error);
+          if (ErrorCode.BAD_CREDENTIALS === errorResponse.errorCode) {
+            this.badCredentials = true;
+            console.log("bad");
+          } else {
+            handle(errorResponse);
+          }
       }).finally(() => this.spinner = false);
     }
   }

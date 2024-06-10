@@ -3,6 +3,8 @@ package com.cutback.backend.exception;
 import com.cutback.backend.dto.error.ErrorCode;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 public class CutbackException extends RuntimeException {
 

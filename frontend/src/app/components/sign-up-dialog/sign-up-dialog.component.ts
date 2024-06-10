@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
 import { AuthService } from "../../services/auth/auth.service";
 import { AuthRequest } from "../../models/request/auth-request";
 import { ErrorCode, ErrorResponse } from "../../models/response/error-response";
-import { getError, handle, parseErrorResponse, putErrors } from "../../error/error-utils";
+import { handle, parseErrorResponse } from "../../error/error-utils";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatError, MatFormField, MatLabel, MatSuffix } from "@angular/material/form-field";
@@ -12,8 +12,9 @@ import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { NgIf } from "@angular/common";
 import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
-import { TranslocoPipe } from "@ngneat/transloco";
+import { TranslocoPipe, TranslocoService } from "@ngneat/transloco";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
+import { BaseFormComponent } from "../util/base-form-component";
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -41,43 +42,30 @@ import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
   templateUrl: './sign-up-dialog.component.html',
   styleUrl: './sign-up-dialog.component.scss'
 })
-export class SignUpDialogComponent {
-  private _spinner: boolean = false;
-  private set spinner(spinner: boolean) {
-    this._spinner = spinner;
-    this.dialogRef.disableClose = spinner;
-    if (spinner) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-  }
-
-  public get spinner() {
-    return this._spinner;
-  }
-
+export class SignUpDialogComponent extends BaseFormComponent{
   hidePassword: boolean;
-  form: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<SignUpDialogComponent>,
-              private authService: AuthService,
-              private cdr: ChangeDetectorRef) {
+              private translocoService: TranslocoService,
+              private authService: AuthService) {
+    super(
+      translocoService,
+      new FormGroup({
+        username: new FormControl(
+          '',
+          [
+            Validators.required
+          ]
+        ),
+        password: new FormControl(
+          '',
+          [
+            Validators.required
+          ]
+        )
+      })
+    );
     this.hidePassword = true;
-    this.form = new FormGroup({
-      username: new FormControl(
-        '',
-        [
-          Validators.required
-        ]
-      ),
-      password: new FormControl(
-        '',
-        [
-          Validators.required
-        ]
-      )
-    });
   }
 
   public signIn() {
@@ -99,7 +87,7 @@ export class SignUpDialogComponent {
         }).catch(error => {
         const errorResponse: ErrorResponse = parseErrorResponse(error);
         if (errorResponse.errorCode == ErrorCode.VALIDATION_ERROR) {
-          putErrors(this.cdr, this.form, errorResponse);
+          this.putErrors(this.form, errorResponse);
         } else {
           handle(errorResponse);
         }
@@ -108,6 +96,4 @@ export class SignUpDialogComponent {
       });
     }
   }
-
-  protected readonly getError = getError;
 }
