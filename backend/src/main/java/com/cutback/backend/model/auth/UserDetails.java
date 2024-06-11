@@ -4,30 +4,29 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
 @Getter
 @RequiredArgsConstructor
-public class AccountDetails implements UserDetails {
+public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    private final Account account;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(account.getRole().name()));
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
     }
 
     @Override
     public String getPassword() {
-        return this.account.getPassword();
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.account.getUsername();
+        return this.user.getUsername();
     }
 
     @Override
@@ -47,6 +46,6 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return account.isEnabled() && account.isActive();
+        return user.isEnabled() && user.isActive();
     }
 }

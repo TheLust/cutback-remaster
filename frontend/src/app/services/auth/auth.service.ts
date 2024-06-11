@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {CookieService} from "ngx-cookie-service";
-import { lastValueFrom, Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { lastValueFrom } from "rxjs";
 import { AuthRequest } from "../../models/request/auth-request";
-import { CutbackError } from "../../error/cutback-error";
-import { ErrorResponse } from "../../models/response/error-response";
 import { Service } from "../service";
 
 @Injectable({
@@ -14,13 +11,8 @@ export class AuthService extends Service {
 
   readonly AUTH_URL = this.API_URL + 'auth/';
 
-  constructor(private httpClient: HttpClient,
-              private cookieService: CookieService) {
+  constructor(private httpClient: HttpClient) {
     super();
-  }
-
-  public isAuthenticated(): boolean {
-    return this.cookieService.check(this.TOKEN_KEY);
   }
 
   public login(request: AuthRequest): Promise<string> {

@@ -1,7 +1,7 @@
 package com.cutback.backend.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.cutback.backend.service.impl.AccountDetailsService;
+import com.cutback.backend.service.impl.UserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
-    private final AccountDetailsService accountDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
             } else {
                 try {
                     String username = jwtUtils.validateTokenAndRetrieveClaim(jwt);
-                    UserDetails userDetails = accountDetailsService.loadUserByUsername(username);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,

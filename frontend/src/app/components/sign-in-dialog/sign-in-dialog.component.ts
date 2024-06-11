@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
 import { MatFormField, MatInput, MatLabel, MatPrefix, MatSuffix } from "@angular/material/input";
 import { AuthService } from "../../services/auth/auth.service";
-import { TranslocoPipe, TranslocoService } from "@ngneat/transloco";
+import { TranslocoPipe } from "@ngneat/transloco";
 import { MatIcon } from "@angular/material/icon";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { AuthRequest } from "../../models/request/auth-request";
-import { ErrorCode, ErrorResponse } from "../../models/response/error-response";
+import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { handle, parseErrorResponse } from "../../error/error-utils";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { NgIf } from "@angular/common";
@@ -15,6 +15,7 @@ import { MatCard, MatCardContent } from "@angular/material/card";
 import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { BaseFormComponent } from "../util/base-form-component";
+import { MatError } from "@angular/material/form-field";
 
 @Component({
   selector: 'app-sign-in-dialog',
@@ -25,6 +26,7 @@ import { BaseFormComponent } from "../util/base-form-component";
     MatFormField,
     MatLabel,
     MatInput,
+    MatError,
     TranslocoPipe,
     MatIcon,
     MatSuffix,
@@ -48,10 +50,8 @@ export class SignInDialogComponent extends BaseFormComponent{
   badCredentials: boolean;
 
   constructor(public dialogRef: MatDialogRef<SignInDialogComponent>,
-              private translocoService: TranslocoService,
               private authService: AuthService) {
     super(
-      translocoService,
       new FormGroup({
         username: new FormControl(
           '',

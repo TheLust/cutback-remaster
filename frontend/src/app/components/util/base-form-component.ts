@@ -1,14 +1,17 @@
 import { AbstractControl, FormGroup, ValidationErrors } from "@angular/forms";
-import { ErrorCode, ErrorResponse } from "../../models/response/error-response";
+import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { TranslocoService } from "@ngneat/transloco";
+import { inject } from "@angular/core";
 
 export class BaseFormComponent {
+
+  private transloco: TranslocoService;
 
   private _spinner: boolean = false;
   public form: FormGroup;
 
-  constructor(private transloco: TranslocoService,
-              form: FormGroup) {
+  constructor(form: FormGroup) {
+    this.transloco = inject(TranslocoService);
     this.form = form;
   }
 
@@ -27,9 +30,9 @@ export class BaseFormComponent {
     }
   }
 
-  public getError(form: FormGroup, controlName: string): string {
+  public getError(controlName: string): string {
     return this.transloco.translate('field.' + controlName) + ' ' +
-      this.getErrorMessage(form.controls[controlName].errors)
+      this.getErrorMessage(this.form.controls[controlName].errors)
   }
 
   private getErrorMessage(errors: ValidationErrors | null) {
@@ -44,8 +47,7 @@ export class BaseFormComponent {
     return this.interpolateErrorMessage(translatedMessageTemplate, value);
   }
 
-  public putErrors(form: FormGroup,
-                   errorResponse: ErrorResponse): void {
+  public putErrors(errorResponse: ErrorResponse): void {
     if (!errorResponse.errorCode || (errorResponse.errorCode && errorResponse.errorCode !== ErrorCode.VALIDATION_ERROR)) {
       throw new Error("Cannot put errors because errorCode is not" + ErrorCode.VALIDATION_ERROR);
     }
@@ -54,9 +56,9 @@ export class BaseFormComponent {
       throw new Error("Errors map is not valid");
     }
     const errors: Map<string, string> = errorResponse.errors;
-    for (const controlName of Object.keys(form.controls)) {
+    for (const controlName of Object.keys(this.form.controls)) {
       const validationErrorCode: string | undefined = errors.get(controlName);
-      const control: AbstractControl | null = form.get(controlName);
+      const control: AbstractControl | null = this.form.get(controlName);
       if (validationErrorCode && control) {
         let error: ValidationErrors;
         if (validationErrorCode.includes('length')) {

@@ -10,7 +10,10 @@
     auth
   </div>
   <div *ngIf="!profile" class="profile-container">
-    <button mat-raised-button
+    <button mat-button
             (click)="login()">Sign in</button>
+    <mat-divider [vertical]="true"/>
+    <button mat-button
+            (click)="register()">Sign up</button>
   </div>
 </mat-toolbar>

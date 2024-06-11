@@ -3,7 +3,7 @@ package com.cutback.backend.security;
 import com.cutback.backend.dto.error.ErrorCode;
 import com.cutback.backend.dto.error.ErrorResponse;
 import com.cutback.backend.model.auth.Role;
-import com.cutback.backend.service.impl.AccountDetailsService;
+import com.cutback.backend.service.impl.UserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,13 +29,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final AccountDetailsService accountDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(AccountDetailsService accountDetailsService,
+    public SecurityConfig(UserDetailsService userDetailsService,
                           JwtFilter jwtFilter) {
-        this.accountDetailsService = accountDetailsService;
+        this.userDetailsService = userDetailsService;
         this.jwtFilter = jwtFilter;
     }
 
@@ -109,7 +109,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(accountDetailsService);
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;

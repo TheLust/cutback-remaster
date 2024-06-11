@@ -2,7 +2,7 @@ package com.cutback.backend.model;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
-import com.cutback.backend.model.auth.Account;
+import com.cutback.backend.model.auth.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -10,10 +10,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity(name = "_user")
+@Entity
 @Getter
 @Setter
-public class User {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class User {
 
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
     @OneToOne
-    private Account account;
+    private User user;
 
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)
     private String firstName;

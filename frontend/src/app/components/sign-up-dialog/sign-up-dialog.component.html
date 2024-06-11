@@ -6,7 +6,7 @@
       <mat-label>Username</mat-label>
       <input matInput
              formControlName="username">
-      <mat-error>{{ getError(form, 'username') }}</mat-error>
+      <mat-error>{{ getError('username') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Password</mat-label>
@@ -20,7 +20,7 @@
               (click)="hidePassword = !hidePassword">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-error>{{ getError(form, 'password') }}</mat-error>
+      <mat-error>{{ getError('password') }}</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>

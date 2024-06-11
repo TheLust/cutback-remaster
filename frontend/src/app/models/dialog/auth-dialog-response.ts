@@ -1,4 +1,4 @@
-export class AuthDialogResponse {
-  token: string | undefined;
-  redirect: boolean | undefined;
+export interface AuthDialogResponse {
+  token: string;
+  redirect: boolean;
 }

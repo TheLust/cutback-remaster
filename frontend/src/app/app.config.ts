@@ -6,12 +6,14 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {provideHttpClient} from "@angular/common/http";
 import {TranslocoHttpLoader} from './transloco-loader';
 import {provideTransloco} from '@ngneat/transloco';
+import { provideNativeDateAdapter } from "@angular/material/core";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
     provideHttpClient(),
     provideTransloco({
         config: {

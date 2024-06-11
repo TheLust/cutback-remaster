@@ -7,7 +7,18 @@
   },
   "field": {
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "gender": "Gender",
+    "birthDate": "Birth date",
+    "email": "Email",
+    "phoneNumber": "Phone number"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
   },
   "violationCode": {
     "required": "is required",

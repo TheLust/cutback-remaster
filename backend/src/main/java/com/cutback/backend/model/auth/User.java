@@ -2,7 +2,7 @@ package com.cutback.backend.model.auth;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
-import com.cutback.backend.model.User;
+import com.cutback.backend.model.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,17 +10,17 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "_user")
 @Getter
 @Setter
-public class Account {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "account")
-    private User user;
+    @OneToOne(mappedBy = "user")
+    private Account account;
 
     @Column(unique = true)
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)

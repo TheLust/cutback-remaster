@@ -11,6 +11,7 @@
       <mat-label>{{ 'field.username' | transloco }}</mat-label>
       <input matInput
              formControlName="username">
+      <mat-error>{{ getError('username') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ 'field.password' | transloco }}</mat-label>
@@ -24,6 +25,7 @@
               (click)="hidePassword = !hidePassword">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
+      <mat-error>{{ getError('password') }}</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>

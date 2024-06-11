@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorResponse } from "../models/response/error-response";
+import { ErrorCode, ErrorResponse } from "../models/error/error-response";
 import { AbstractControl, FormGroup, ValidationErrors } from "@angular/forms";
 
 export function handleError(error: any): void {
@@ -16,7 +16,12 @@ export function handle(errorResponse: ErrorResponse): void {
 }
 
 export function parseErrorResponse(error: any): ErrorResponse {
-  const body: Object = JSON.parse(JSON.parse(JSON.stringify(error.error)));
+  let body: Object;
+  try {
+    body = JSON.parse(JSON.parse(JSON.stringify(error.error)));
+  } catch (err) {
+    body = JSON.parse(JSON.stringify(error.error));
+  }
   const errorResponse: ErrorResponse = Object.assign(new ErrorResponse(), body);
   errorResponse.errorCode = ErrorCode[errorResponse.errorCode as keyof typeof ErrorCode];
   if (errorResponse.errors) {

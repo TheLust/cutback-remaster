@@ -1,6 +1,6 @@
 package com.cutback.backend.service.impl;
 
-import com.cutback.backend.model.auth.Account;
+import com.cutback.backend.model.Account;
 import com.cutback.backend.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,11 @@ public class AccountService extends CrudService<Account, Long> {
         this.repository = repository;
     }
 
-    public Optional<Account> findByUsername(String username) {
-        return repository.findByUsername(username);
+    public Optional<Account> findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    public Optional<Account> findByPhoneNumber(String phoneNumber) {
+        return repository.findByPhoneNumber(phoneNumber);
     }
 }

@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.cutback.backend.model.auth.Account;
+import com.cutback.backend.model.auth.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +28,11 @@ public class JwtUtils {
     private static final String ROLE_FIELD = "role";
     private final static Integer MINUTES = 24 * 60;
 
-    public String generateToken(Account account) {
+    public String generateToken(User user) {
         return JWT.create()
                 .withSubject(subject)
-                .withClaim(USERNAME_FIELD, account.getUsername())
-                .withClaim(ROLE_FIELD, account.getRole().name())
+                .withClaim(USERNAME_FIELD, user.getUsername())
+                .withClaim(ROLE_FIELD, user.getRole().name())
                 .withIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
                 .withIssuer(issuer)
                 .withExpiresAt(Date.from(ZonedDateTime.now().plusMinutes(MINUTES).toInstant()))

@@ -6,11 +6,14 @@ mat-form-field {
   width: 100%;
 }
 
+#gender-field .mat-mdc-select-trigger {
+  visibility: hidden !important;
+}
+
 #title {
   text-align: center;
 }
 
-#password-visibility-toggle {
+#birth-date-field-button {
   margin-right: 6px;
 }
-

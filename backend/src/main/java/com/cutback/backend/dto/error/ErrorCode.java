@@ -11,7 +11,8 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND),
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST),
-    BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED);
+    BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED),
+    USER_WO_ACCOUNT(HttpStatus.BAD_REQUEST);
 
     private final HttpStatus status;
 

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatToolbar } from "@angular/material/toolbar";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
@@ -9,6 +9,11 @@ import { MatDialog } from "@angular/material/dialog";
 import { SignInDialogComponent } from "../sign-in-dialog/sign-in-dialog.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { SignUpDialogComponent } from "../sign-up-dialog/sign-up-dialog.component";
+import { MatDivider } from "@angular/material/divider";
+import { Profile } from "../../models/response/profile";
+import { ProfileService } from "../../services/profile/profile.service";
+import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
+import { handle, parseErrorResponse } from "../../error/error-utils";
 
 @Component({
   selector: 'app-header',
@@ -19,17 +24,22 @@ import { SignUpDialogComponent } from "../sign-up-dialog/sign-up-dialog.componen
     MatIconButton,
     MatIcon,
     NgIf,
-    TranslocoPipe
+    TranslocoPipe,
+    MatDivider
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
 
-  @Input("sidenav") sidenav: MatSidenav | undefined;
-  @Input("profile") profile: any | undefined;
+  @Output() profileChange: EventEmitter<Profile>;
+  @Input() profile: Profile | undefined;
+  @Input() sidenav: MatSidenav | undefined;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private profileService: ProfileService,
+              private dialog: MatDialog) {
+    this.profileChange = new EventEmitter<Profile>;
+  }
 
   public toggleSidenav(): void {
     if (this.sidenav) {
@@ -37,7 +47,7 @@ export class HeaderComponent {
     }
   }
 
-  private register() {
+  public register() {
     const dialogRef = this.dialog.open(SignUpDialogComponent);
 
     dialogRef.afterClosed()
@@ -46,7 +56,7 @@ export class HeaderComponent {
           if (authDialogResponse.redirect) {
             this.login();
           } else {
-            console.log(authDialogResponse.token);
+            this.setTokenAndChangeProfile(authDialogResponse.token);
           }
         }
       });
@@ -61,8 +71,24 @@ export class HeaderComponent {
           if (authDialogResponse.redirect) {
             this.register();
           } else {
-            console.log(authDialogResponse.token);
+            this.setTokenAndChangeProfile(authDialogResponse.token);
           }
+        }
+      });
+  }
+
+  private setTokenAndChangeProfile(token: string) {
+    this.profileService.setToken(token);
+    this.profileService.get()
+      .then((value: Profile) => {
+        this.profileChange.emit(value);
+      })
+      .catch(error => {
+        const errorResponse: ErrorResponse = parseErrorResponse(error);
+        if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
+
+        } else {
+          handle(errorResponse);
         }
       });
   }

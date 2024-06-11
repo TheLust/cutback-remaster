@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../models/response/error-response";
+import { ErrorResponse } from "../models/error/error-response";
 
 export class CutbackError extends Error {
 

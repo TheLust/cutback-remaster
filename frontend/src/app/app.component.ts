@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
-import {HeaderComponent} from "./components/header/header.component";
-import {HttpClient} from "@angular/common/http";
-import {AuthService} from "./services/auth/auth.service";
-import {Profile} from "./models/profile";
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from "@angular/material/sidenav";
+import { HeaderComponent } from "./components/header/header.component";
+import { Profile } from "./models/response/profile";
+import { ProfileService } from "./services/profile/profile.service";
+import { handle, parseErrorResponse } from "./error/error-utils";
+import { ErrorCode, ErrorResponse } from "./models/error/error-response";
+import { MatDialog } from "@angular/material/dialog";
+import { CreateAccountDialogComponent } from "./components/create-account-dialog/create-account-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -22,9 +25,32 @@ import {Profile} from "./models/profile";
 export class AppComponent {
   profile: Profile | undefined;
 
-  constructor(private authService: AuthService) {
-    if (authService.isAuthenticated()) {
-      console.log("get profile");
+  constructor(private profileService: ProfileService,
+              private dialog: MatDialog) {
+    if (profileService.checkToken()) {
+      profileService.get()
+        .then((value: Profile) => {
+          this.profile = value;
+        })
+        .catch(error => {
+          const errorResponse: ErrorResponse = parseErrorResponse(error);
+          if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
+            this.createAccountForUser();
+          } else {
+            handle(errorResponse);
+          }
+        });
     }
+  }
+
+  private createAccountForUser() {
+    const dialogRef = this.dialog.open(CreateAccountDialogComponent);
+
+    dialogRef.afterClosed()
+      .subscribe(value => {
+        if (!value) {
+          this.createAccountForUser();
+        }
+      });
   }
 }
