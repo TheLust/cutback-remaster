@@ -18,6 +18,17 @@ public class Mapper {
         return mapper.map(authRequest, User.class);
     }
 
+    public Account toEntity(Profile profile) {
+        Account account = mapper.map(profile, Account.class);
+        if (account.getPhoneNumber() != null) {
+            if (account.getPhoneNumber().isBlank() || account.getPhoneNumber().isEmpty()) {
+                account.setPhoneNumber(null);
+            }
+        }
+
+        return account;
+    }
+
     public Profile toProfile(Account account) {
         Profile profile = mapper.map(account, Profile.class);
         profile.setUsername(account.getUser().getUsername());

@@ -3,13 +3,13 @@
   <form [formGroup]="form">
     <mat-form-field>
       <mat-icon matSuffix>person</mat-icon>
-      <mat-label>Username</mat-label>
+      <mat-label>{{ 'field.username' | transloco }}</mat-label>
       <input matInput
              formControlName="username">
       <mat-error>{{ getError('username') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Password</mat-label>
+      <mat-label>{{ 'field.password' | transloco }}</mat-label>
       <input matInput
              [type]="hidePassword ? 'password' : 'text'"
              formControlName="password">

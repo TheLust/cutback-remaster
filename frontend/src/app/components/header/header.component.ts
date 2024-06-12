@@ -14,6 +14,7 @@ import { Profile } from "../../models/response/profile";
 import { ProfileService } from "../../services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { handle, parseErrorResponse } from "../../error/error-utils";
+import { CreateAccountDialogComponent } from "../create-account-dialog/create-account-dialog.component";
 
 @Component({
   selector: 'app-header',
@@ -86,9 +87,22 @@ export class HeaderComponent {
       .catch(error => {
         const errorResponse: ErrorResponse = parseErrorResponse(error);
         if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
-
+          this.createAccountForUser()
         } else {
           handle(errorResponse);
+        }
+      });
+  }
+
+  private createAccountForUser() {
+    const dialogRef = this.dialog.open(CreateAccountDialogComponent);
+
+    dialogRef.afterClosed()
+      .subscribe(value => {
+        if (!value) {
+          this.createAccountForUser();
+        } else {
+          this.profileChange.emit(value);
         }
       });
   }

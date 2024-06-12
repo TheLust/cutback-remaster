@@ -37,6 +37,7 @@ public class Account {
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
     private LocalDate birthDate;
 
+    @NotBlank(message = ConstraintViolationCodes.REQUIRED)
     @Email(message = ConstraintViolationCodes.EMAIL)
     private String email;
 

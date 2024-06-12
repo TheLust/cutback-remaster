@@ -3,7 +3,8 @@
   "auth": {
     "signIn": "Sign in",
     "signUp": "Sign up",
-    "badCredentials": "Incorrect username or password"
+    "badCredentials": "Incorrect username or password",
+    "finish": "Finish"
   },
   "field": {
     "username": "Username",
@@ -23,6 +24,9 @@
   "violationCode": {
     "required": "is required",
     "minlength": "must have at least {requiredLength} characters",
-    "maxlength": "must have {requiredLength} or less characters"
+    "maxlength": "must have {requiredLength} or less characters",
+    "email": "is not valid",
+    "phoneNumber": "is not valid",
+    "unique": "already exists"
   }
 }

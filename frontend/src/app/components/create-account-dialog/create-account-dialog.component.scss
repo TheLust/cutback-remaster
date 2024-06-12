@@ -1,12 +1,8 @@
-mat-dialog-actions {
-  justify-content: space-between;
-}
-
 mat-form-field {
   width: 100%;
 }
 
-#gender-field .mat-mdc-select-trigger {
+#gender-field .mat-mdc-select-arrow-wrapper {
   visibility: hidden !important;
 }
 

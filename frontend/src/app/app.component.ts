@@ -25,7 +25,7 @@ import { CreateAccountDialogComponent } from "./components/create-account-dialog
 export class AppComponent {
   profile: Profile | undefined;
 
-  constructor(private profileService: ProfileService,
+  constructor(profileService: ProfileService,
               private dialog: MatDialog) {
     if (profileService.checkToken()) {
       profileService.get()
@@ -50,6 +50,8 @@ export class AppComponent {
       .subscribe(value => {
         if (!value) {
           this.createAccountForUser();
+        } else {
+          this.profile = value;
         }
       });
   }
