@@ -1,5 +1,5 @@
 <h2 id="title" mat-dialog-title>{{ 'auth.signIn' | transloco }}</h2>
-<mat-dialog-content>
+<mat-dialog-content *ngIf="loaded">
   <form [formGroup]="form">
     <mat-form-field>
       <mat-icon matSuffix>drive_file_rename_outline</mat-icon>
@@ -16,7 +16,8 @@
       <mat-error>{{ getError('lastName') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-icon matSuffix>male</mat-icon>
+      <mat-icon matSuffix *ngIf="isGender(Gender.MALE)">male</mat-icon>
+      <mat-icon matSuffix *ngIf="isGender(Gender.FEMALE)">female</mat-icon>
       <mat-label>{{ 'field.gender' | transloco }}</mat-label>
       <mat-select id="gender-field"
                   formControlName="gender">
@@ -38,30 +39,19 @@
       <mat-error>{{ getError('birthDate') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-icon matSuffix>email</mat-icon>
+      <mat-icon matSuffix>mail_outline</mat-icon>
       <mat-label>{{ 'field.email' | transloco }}</mat-label>
       <input matInput
              formControlName="email">
       <mat-error>{{ getError('email') }}</mat-error>
     </mat-form-field>
-<!--    <mat-form-field>-->
-<!--      <mat-icon matSuffix>contact_phone</mat-icon>-->
-<!--      <mat-label>{{ 'field.phoneNumber' | transloco }}</mat-label>-->
-<!--      <input matInput-->
-<!--             formControlName="phoneNumber">-->
-<!--      <mat-error>{{ getError('phoneNumber') }}</mat-error>-->
-<!--    </mat-form-field>-->
     <mat-form-field>
-      <ngx-intl-tel-input [preferredCountries]="[CountryISO.Moldova, CountryISO.Romania]"
-                          [enableAutoCountrySelect]="false"
-                          [enablePlaceholder]="true"
-                          [searchCountryFlag]="true"
-                          [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                          [selectFirstCountry]="false"
-                          [selectedCountryISO]="CountryISO.Moldova"
-                          [maxLength]="15"
-                          [phoneValidation]="true"
-                          formControlName="phoneNumber"/>
+      <mat-icon matSuffix>local_phone</mat-icon>
+      <mat-label>{{ 'field.phoneNumber' | transloco }}</mat-label>
+      <ngx-mat-input-tel
+        [preferredCountries]="['md', 'ro']"
+        formControlName="phoneNumber"/>
+      <mat-error>{{ getError('phoneNumber') }}</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>

@@ -44,7 +44,12 @@ export class AppComponent {
   }
 
   private createAccountForUser() {
-    const dialogRef = this.dialog.open(CreateAccountDialogComponent);
+    const dialogRef = this.dialog.open(
+      CreateAccountDialogComponent,
+      {
+        disableClose: true
+      }
+    );
 
     dialogRef.afterClosed()
       .subscribe(value => {

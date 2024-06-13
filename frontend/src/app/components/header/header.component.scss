@@ -12,3 +12,21 @@
     border-right-color: var(--mat-toolbar-container-text-color);
   }
 }
+
+.image-container {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  border-radius: 50%;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
+.image-container:hover {
+  img {
+    scale: 1.1;
+    //border: 1px solid var(--mdc-radio-selected-focus-icon-color);
+  }
+}

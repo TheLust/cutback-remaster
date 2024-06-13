@@ -27,6 +27,8 @@
     "maxlength": "must have {requiredLength} or less characters",
     "email": "is not valid",
     "phoneNumber": "is not valid",
-    "unique": "already exists"
+    "unique": "already exists",
+    "validatePhoneNumber": "is not valid",
+    "past": "must be in the past"
   }
 }

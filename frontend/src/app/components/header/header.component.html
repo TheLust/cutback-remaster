@@ -7,7 +7,14 @@
     <h1>{{ 'title' | transloco }}</h1>
   </div>
   <div *ngIf="profile" class="profile-container">
-    auth
+    <div class="image-container">
+      <img [ngSrc]="'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-1.jpg'"
+           alt="profile-image"
+           fill="fill">
+    </div>
+    <div class="name-container">
+
+    </div>
   </div>
   <div *ngIf="!profile" class="profile-container">
     <button mat-button

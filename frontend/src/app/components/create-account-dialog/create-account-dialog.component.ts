@@ -1,23 +1,24 @@
-import { Component } from '@angular/core';
-import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
-import { MatCard, MatCardContent } from "@angular/material/card";
-import { TranslocoPipe } from "@ngneat/transloco";
-import { MatError, MatFormField, MatLabel, MatSuffix } from "@angular/material/form-field";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatIcon } from "@angular/material/icon";
-import { BaseFormComponent } from "../util/base-form-component";
-import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
-import { MatButton } from "@angular/material/button";
-import { MatInput } from "@angular/material/input";
-import { NgIf } from "@angular/common";
-import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from "@angular/material/datepicker";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { Gender } from "../../models/response/gender";
-import { Profile } from "../../models/response/profile";
-import { ProfileService } from "../../services/profile/profile.service";
-import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
-import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from "ngx-intl-tel-input-gg";
+import {Component} from '@angular/core';
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatCard, MatCardContent} from "@angular/material/card";
+import {TranslocoPipe} from "@ngneat/transloco";
+import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatIcon} from "@angular/material/icon";
+import {BaseFormComponent} from "../util/base-form-component";
+import {ProgressSpinnerComponent} from "../progress-spinner/progress-spinner.component";
+import {MatButton} from "@angular/material/button";
+import {MatInput} from "@angular/material/input";
+import {NgIf} from "@angular/common";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {Gender} from "../../models/response/gender";
+import {Profile} from "../../models/response/profile";
+import {ProfileService} from "../../services/profile/profile.service";
+import {ErrorCode, ErrorResponse} from "../../models/error/error-response";
+import {handle, parseErrorResponse} from "../../error/error-utils";
+import {NgxMatInputTelComponent} from "ngx-mat-input-tel";
+import {CustomValidators} from "../util/custom-validators";
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -44,7 +45,7 @@ import { CountryISO, NgxIntlTelInputModule, SearchCountryField } from "ngx-intl-
     MatDatepicker,
     MatSelect,
     MatOption,
-    NgxIntlTelInputModule
+    NgxMatInputTelComponent
   ],
   templateUrl: './create-account-dialog.component.html',
   styleUrl: './create-account-dialog.component.scss'
@@ -76,7 +77,8 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
         birthDate: new FormControl(
           '',
           [
-            Validators.required
+            Validators.required,
+            CustomValidators.past
           ]
         ),
         email: new FormControl(
@@ -88,9 +90,7 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
         ),
         phoneNumber: new FormControl(
           '',
-          [
-
-          ]
+          []
         )
       })
     );
@@ -117,7 +117,18 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
     }
   }
 
+  public isGender(gender: Gender): boolean {
+    if (this.form) {
+      const control: AbstractControl | null = this.form.get('gender');
+      if (control) {
+        if (<Gender> control.getRawValue() == gender) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   protected readonly Gender = Gender;
-  protected readonly CountryISO = CountryISO;
-  protected readonly SearchCountryField = SearchCountryField;
 }

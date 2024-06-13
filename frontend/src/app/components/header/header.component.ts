@@ -3,7 +3,7 @@ import { MatToolbar } from "@angular/material/toolbar";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatSidenav } from "@angular/material/sidenav";
-import { NgIf } from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import { TranslocoPipe } from "@ngneat/transloco";
 import { MatDialog } from "@angular/material/dialog";
 import { SignInDialogComponent } from "../sign-in-dialog/sign-in-dialog.component";
@@ -26,7 +26,8 @@ import { CreateAccountDialogComponent } from "../create-account-dialog/create-ac
     MatIcon,
     NgIf,
     TranslocoPipe,
-    MatDivider
+    MatDivider,
+    NgOptimizedImage
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

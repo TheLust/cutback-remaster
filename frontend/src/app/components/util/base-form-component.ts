@@ -9,9 +9,16 @@ export class BaseFormComponent {
 
   private _spinner: boolean = false;
   public form: FormGroup;
+  public loaded: boolean | undefined;
 
   constructor(form: FormGroup) {
     this.transloco = inject(TranslocoService);
+    this.transloco.load(this.transloco.getActiveLang())
+      .subscribe({
+        next: () => {
+          this.loaded = true;
+        }
+      });
     this.form = form;
   }
 
