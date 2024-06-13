@@ -4,7 +4,10 @@ import com.cutback.backend.dto.error.ErrorCode;
 import com.cutback.backend.dto.response.Profile;
 import com.cutback.backend.exception.CutbackException;
 import com.cutback.backend.mapper.Mapper;
-import com.cutback.backend.model.Account;
+import com.cutback.backend.model.account.Account;
+import com.cutback.backend.model.account.Language;
+import com.cutback.backend.model.account.Preferences;
+import com.cutback.backend.model.account.Theme;
 import com.cutback.backend.model.auth.User;
 import com.cutback.backend.service.impl.AccountService;
 import com.cutback.backend.validator.AccountValidator;
@@ -41,7 +44,12 @@ public class ProfileFacade {
                     ErrorCode.BAD_REQUEST
             );
         }
+        Preferences preferences = new Preferences();
+        preferences.setLanguage(Language.EN);
+        preferences.setTheme(Theme.LIGHT);
+
         Account account = mapper.toEntity(profile);
+        account.setPreferences(preferences);
         account.setUser(user);
         account.setId(null);
 

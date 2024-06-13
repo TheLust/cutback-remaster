@@ -1,6 +1,6 @@
 package com.cutback.backend.repository;
 
-import com.cutback.backend.model.Account;
+import com.cutback.backend.model.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

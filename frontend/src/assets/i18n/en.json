@@ -4,7 +4,8 @@
     "signIn": "Sign in",
     "signUp": "Sign up",
     "badCredentials": "Incorrect username or password",
-    "finish": "Finish"
+    "finish": "Finish",
+    "signOut": "Sign out"
   },
   "field": {
     "username": "Username",
@@ -30,5 +31,18 @@
     "unique": "already exists",
     "validatePhoneNumber": "is not valid",
     "past": "must be in the past"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "language": {
+    "title": "Language",
+    "en": "English",
+    "ro": "Romanian"
+  },
+  "theme": {
+    "title": "Theme",
+    "light": "Light",
+    "dark": "Dark"
   }
 }

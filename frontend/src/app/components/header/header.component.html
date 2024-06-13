@@ -7,11 +7,13 @@
     <h1>{{ 'title' | transloco }}</h1>
   </div>
   <div *ngIf="profile" class="profile-container">
-    <div class="image-container">
+    <button mat-icon-button
+            class="image-container"
+            [matMenuTriggerFor]="profileMenu">
       <img [ngSrc]="'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-1.jpg'"
            alt="profile-image"
            fill="fill">
-    </div>
+    </button>
     <div class="name-container">
 
     </div>
@@ -24,3 +26,39 @@
             (click)="register()">Sign up</button>
   </div>
 </mat-toolbar>
+
+<mat-menu #profileMenu="matMenu">
+  <button mat-menu-item>
+    {{ 'profile.title' | transloco }}
+  </button>
+  <button mat-menu-item
+          [matMenuTriggerFor]="languageMenu">
+    {{ 'language.title' | transloco }}
+  </button>
+  <button mat-menu-item
+          [matMenuTriggerFor]="themeMenu">
+    {{ 'theme.title' | transloco }}
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item>
+    {{ 'auth.signOut' | transloco }}
+  </button>
+</mat-menu>
+
+<mat-menu #languageMenu="matMenu">
+  <button mat-menu-item>
+    {{ 'language.en' | transloco }}
+  </button>
+  <button mat-menu-item>
+    {{ 'language.ro' | transloco }}
+  </button>
+</mat-menu>
+
+<mat-menu #themeMenu="matMenu">
+  <button mat-menu-item>
+    {{ 'theme.light' | transloco }}
+  </button>
+  <button mat-menu-item>
+    {{ 'theme.dark' | transloco }}
+  </button>
+</mat-menu>

@@ -1,6 +1,7 @@
 package com.cutback.backend.dto.response;
 
-import com.cutback.backend.model.Gender;
+import com.cutback.backend.model.account.Gender;
+import com.cutback.backend.model.account.Preferences;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 public class Profile {
 
     private Long id;
+    private Preferences preferences;
     private String username;
     private String firstName;
     private String lastName;

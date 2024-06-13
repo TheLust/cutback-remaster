@@ -27,6 +27,6 @@
 .image-container:hover {
   img {
     scale: 1.1;
-    //border: 1px solid var(--mdc-radio-selected-focus-icon-color);
+    cursor: pointer;
   }
 }

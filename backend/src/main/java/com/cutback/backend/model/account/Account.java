@@ -1,4 +1,4 @@
-package com.cutback.backend.model;
+package com.cutback.backend.model.account;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
@@ -22,6 +22,10 @@ public class Account {
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
     @OneToOne
     private User user;
+
+    @NotNull(message = ConstraintViolationCodes.REQUIRED)
+    @OneToOne(optional = false)
+    private Preferences preferences;
 
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)
     private String firstName;

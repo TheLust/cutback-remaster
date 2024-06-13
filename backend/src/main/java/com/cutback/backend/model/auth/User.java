@@ -2,7 +2,7 @@ package com.cutback.backend.model.auth;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
-import com.cutback.backend.model.Account;
+import com.cutback.backend.model.account.Account;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

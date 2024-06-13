@@ -15,6 +15,8 @@ import { ProfileService } from "../../services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { handle, parseErrorResponse } from "../../error/error-utils";
 import { CreateAccountDialogComponent } from "../create-account-dialog/create-account-dialog.component";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatOption, MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-header',
@@ -27,7 +29,12 @@ import { CreateAccountDialogComponent } from "../create-account-dialog/create-ac
     NgIf,
     TranslocoPipe,
     MatDivider,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

@@ -1,6 +1,6 @@
 package com.cutback.backend.service.impl;
 
-import com.cutback.backend.model.Account;
+import com.cutback.backend.model.account.Account;
 import com.cutback.backend.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

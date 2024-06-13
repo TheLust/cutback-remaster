@@ -2,7 +2,7 @@ package com.cutback.backend.mapper;
 
 import com.cutback.backend.dto.request.AuthRequest;
 import com.cutback.backend.dto.response.Profile;
-import com.cutback.backend.model.Account;
+import com.cutback.backend.model.account.Account;
 import com.cutback.backend.model.auth.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
