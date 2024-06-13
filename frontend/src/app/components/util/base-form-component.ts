@@ -1,24 +1,14 @@
 import { AbstractControl, FormGroup, ValidationErrors } from "@angular/forms";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { TranslocoService } from "@ngneat/transloco";
+import { translate, TranslocoService } from "@ngneat/transloco";
 import { inject } from "@angular/core";
 
 export class BaseFormComponent {
 
-  private transloco: TranslocoService;
-
   private _spinner: boolean = false;
   public form: FormGroup;
-  public loaded: boolean | undefined;
 
   constructor(form: FormGroup) {
-    this.transloco = inject(TranslocoService);
-    this.transloco.load(this.transloco.getActiveLang())
-      .subscribe({
-        next: () => {
-          this.loaded = true;
-        }
-      });
     this.form = form;
   }
 
@@ -38,7 +28,7 @@ export class BaseFormComponent {
   }
 
   public getError(controlName: string): string {
-    return this.transloco.translate('field.' + controlName) + ' ' +
+    return translate('field.' + controlName) + ' ' +
       this.getErrorMessage(this.form.controls[controlName].errors)
   }
 
@@ -50,7 +40,7 @@ export class BaseFormComponent {
     const key: string = Object.keys(errors)[0];
     const value: any = errors[key];
 
-    const translatedMessageTemplate: string = this.transloco.translate('violationCode.' + key);
+    const translatedMessageTemplate: string = translate('violationCode.' + key);
     return this.interpolateErrorMessage(translatedMessageTemplate, value);
   }
 

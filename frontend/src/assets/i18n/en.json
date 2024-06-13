@@ -44,5 +44,10 @@
     "title": "Theme",
     "light": "Light",
     "dark": "Dark"
+  },
+  "alert": {
+    "exit": "Exit",
+    "signOutWarning": "Are you sure you want to sign out?",
+    "cancel": "Cancel"
   }
 }

@@ -40,25 +40,34 @@
     {{ 'theme.title' | transloco }}
   </button>
   <mat-divider></mat-divider>
-  <button mat-menu-item>
+  <button mat-menu-item
+          class="sign-out-button" (click)="signOut()">
     {{ 'auth.signOut' | transloco }}
   </button>
 </mat-menu>
 
 <mat-menu #languageMenu="matMenu">
-  <button mat-menu-item>
+  <button mat-menu-item
+          [class.active]="languageService.check(Language.EN)"
+          (click)="languageService.set(Language.EN)">
     {{ 'language.en' | transloco }}
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          [class.active]="languageService.check(Language.RO)"
+          (click)="languageService.set(Language.RO)">
     {{ 'language.ro' | transloco }}
   </button>
 </mat-menu>
 
 <mat-menu #themeMenu="matMenu">
-  <button mat-menu-item>
+  <button mat-menu-item
+          [class.active]="themeService.check(Theme.LIGHT)"
+          (click)="themeService.set(Theme.DARK)">
     {{ 'theme.light' | transloco }}
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item
+          [class.active]="themeService.check(Theme.DARK)"
+          (click)="themeService.set(Theme.DARK)">
     {{ 'theme.dark' | transloco }}
   </button>
 </mat-menu>

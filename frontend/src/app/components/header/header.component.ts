@@ -3,8 +3,8 @@ import { MatToolbar } from "@angular/material/toolbar";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatSidenav } from "@angular/material/sidenav";
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import { TranslocoPipe } from "@ngneat/transloco";
+import { NgIf, NgOptimizedImage } from "@angular/common";
+import { translate, TranslocoPipe } from "@ngneat/transloco";
 import { MatDialog } from "@angular/material/dialog";
 import { SignInDialogComponent } from "../sign-in-dialog/sign-in-dialog.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
@@ -15,8 +15,12 @@ import { ProfileService } from "../../services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { handle, parseErrorResponse } from "../../error/error-utils";
 import { CreateAccountDialogComponent } from "../create-account-dialog/create-account-dialog.component";
-import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
-import {MatOption, MatSelect} from "@angular/material/select";
+import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
+import { MatOption, MatSelect } from "@angular/material/select";
+import { fireConfirmDialog } from "../util/alert-utils";
+import { LanguageService } from "../../services/language/language.service";
+import { Language, Theme } from "../../models/response/preferences";
+import { ThemeService } from "../../services/theme/theme.service";
 
 @Component({
   selector: 'app-header',
@@ -45,7 +49,9 @@ export class HeaderComponent {
   @Input() profile: Profile | undefined;
   @Input() sidenav: MatSidenav | undefined;
 
-  constructor(private profileService: ProfileService,
+  constructor(public languageService: LanguageService,
+              public themeService: ThemeService,
+              private profileService: ProfileService,
               private dialog: MatDialog) {
     this.profileChange = new EventEmitter<Profile>;
   }
@@ -86,6 +92,20 @@ export class HeaderComponent {
       });
   }
 
+  public signOut() {
+    fireConfirmDialog(
+      translate('alert.exit'),
+      translate('alert.signOutWarning'),
+      translate('alert.cancel'),
+      translate('auth.signOut')
+    ).then(result => {
+      if (result.isConfirmed) {
+        this.profileService.deleteToken();
+        this.profileChange.emit(undefined);
+      }
+    });
+  }
+
   private setTokenAndChangeProfile(token: string) {
     this.profileService.setToken(token);
     this.profileService.get()
@@ -114,4 +134,7 @@ export class HeaderComponent {
         }
       });
   }
+
+  protected readonly Language = Language;
+  protected readonly Theme = Theme;
 }

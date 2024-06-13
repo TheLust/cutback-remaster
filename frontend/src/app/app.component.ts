@@ -8,6 +8,8 @@ import { handle, parseErrorResponse } from "./error/error-utils";
 import { ErrorCode, ErrorResponse } from "./models/error/error-response";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateAccountDialogComponent } from "./components/create-account-dialog/create-account-dialog.component";
+import { LanguageService } from "./services/language/language.service";
+import { ThemeService } from "./services/theme/theme.service";
 
 @Component({
   selector: 'app-root',
@@ -26,11 +28,15 @@ export class AppComponent {
   profile: Profile | undefined;
 
   constructor(profileService: ProfileService,
+              languageService: LanguageService,
+              themeService: ThemeService,
               private dialog: MatDialog) {
     if (profileService.checkToken()) {
       profileService.get()
         .then((value: Profile) => {
           this.profile = value;
+          languageService.set(value.preferences.language);
+          themeService.set(value.preferences.theme);
         })
         .catch(error => {
           const errorResponse: ErrorResponse = parseErrorResponse(error);
@@ -41,6 +47,7 @@ export class AppComponent {
           }
         });
     }
+
   }
 
   private createAccountForUser() {

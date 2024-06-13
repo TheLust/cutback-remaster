@@ -30,3 +30,11 @@
     cursor: pointer;
   }
 }
+
+.sign-out-button {
+  color: var(--mat-form-field-error-text-color);
+}
+
+.active {
+  color: var(--mdc-outlined-text-field-focus-label-text-color);
+}
