@@ -33,6 +33,7 @@ export class AppComponent {
   constructor(private profileService: ProfileService,
               private preferencesService: PreferencesService,
               private dialog: MatDialog) {
+    this.preferencesService.setPreferences(this.profile);
     this.setUp();
   }
 
@@ -41,7 +42,6 @@ export class AppComponent {
       this.profileService.get()
         .then(value => {
           this.profile = toProfile(value);
-          console.log(this.profile);
         }).catch(error => {
           const errorResponse: ErrorResponse = parseErrorResponse(error);
           if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {

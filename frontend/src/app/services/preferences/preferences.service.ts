@@ -25,8 +25,11 @@ export class PreferencesService extends Service {
   public setPreferences(profile?: Profile) {
     if (profile) {
       const preferences: Preferences = profile.preferences;
-      const cookieLang: Language = this.languageService.getCookie();
-      const cookieTheme: Theme = this.themeService.getCookie();
+      let cookieLang: Language = this.languageService.getCookie();
+      let cookieTheme: Theme = this.themeService.getCookie();
+
+      cookieLang = Language[cookieLang.toString() as keyof typeof Language];
+      cookieTheme = Theme[cookieTheme.toString() as keyof typeof Theme];
 
       if (!cookieLang || cookieLang !== preferences.language) {
         this.languageService.set(preferences.language);

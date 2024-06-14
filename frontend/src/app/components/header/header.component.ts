@@ -22,6 +22,7 @@ import { LanguageService } from "../../services/preferences/language/language.se
 import { Language, Theme } from "../../models/response/preferences";
 import { ThemeService } from "../../services/preferences/theme/theme.service";
 import { PreferencesService } from "../../services/preferences/preferences.service";
+import { toProfile } from "../../models/mapper/model-mapper";
 
 @Component({
   selector: 'app-header',
@@ -111,18 +112,21 @@ export class HeaderComponent {
   }
 
   private setTokenAndChangeProfile(token: string) {
+    let profile: Profile | undefined;
     this.profileService.setToken(token);
     this.profileService.get()
       .then((value: Profile) => {
-        this.profileChange.emit(value);
-      })
-      .catch(error => {
+        profile = toProfile(value);
+        this.profileChange.emit(profile);
+      }).catch(error => {
         const errorResponse: ErrorResponse = parseErrorResponse(error);
         if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
           this.createAccountForUser()
         } else {
           handle(errorResponse);
         }
+      }).finally(() => {
+        this.preferencesService.setPreferences(profile);
       });
   }
 
