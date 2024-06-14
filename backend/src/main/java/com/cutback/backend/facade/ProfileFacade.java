@@ -11,6 +11,7 @@ import com.cutback.backend.model.account.Theme;
 import com.cutback.backend.model.auth.User;
 import com.cutback.backend.service.impl.AccountService;
 import com.cutback.backend.validator.AccountValidator;
+import com.cutback.backend.validator.PreferencesValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class ProfileFacade {
     private final AccountService accountService;
     private final Mapper mapper;
     private final AccountValidator accountValidator;
+    private final PreferencesValidator preferencesValidator;
 
     public Profile get(User user) {
         Account account = user.getAccount();
@@ -58,5 +60,14 @@ public class ProfileFacade {
         return mapper.toProfile(
                 accountService.insert(account)
         );
+    }
+
+    public void updatePreferences(User user,
+                                  Preferences preferences,
+                                  BindingResult bindingResult) {
+        preferencesValidator.validate(preferences,  bindingResult);
+        Account account = user.getAccount();
+        account.setPreferences(preferences);
+        accountService.update(account, account);
     }
 }

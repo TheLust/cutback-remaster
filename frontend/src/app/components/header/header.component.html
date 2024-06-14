@@ -6,38 +6,33 @@
     </button>
     <h1>{{ 'title' | transloco }}</h1>
   </div>
-  <div *ngIf="profile" class="profile-container">
+  <div class="header-container">
     <button mat-icon-button
-            class="image-container"
+            class="profile-button"
+            *ngIf="profile"
             [matMenuTriggerFor]="profileMenu">
       <img [ngSrc]="'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-1.jpg'"
            alt="profile-image"
            fill="fill">
     </button>
-    <div class="name-container">
-
+    <div *ngIf="!profile" class="auth-actions">
+      <button mat-button
+              (click)="login()">{{ 'auth.signIn' | transloco }}</button>
+      <mat-divider [vertical]="true"/>
+      <button mat-button
+              (click)="register()">{{ 'auth.signUp' | transloco }}</button>
     </div>
-  </div>
-  <div *ngIf="!profile" class="profile-container">
-    <button mat-button
-            (click)="login()">Sign in</button>
-    <mat-divider [vertical]="true"/>
-    <button mat-button
-            (click)="register()">Sign up</button>
+<!--    <mat-divider [vertical]="true"></mat-divider>-->
+    <button mat-icon-button
+            [matMenuTriggerFor]="preferencesMenu">
+      <mat-icon>settings</mat-icon>
+    </button>
   </div>
 </mat-toolbar>
 
 <mat-menu #profileMenu="matMenu">
   <button mat-menu-item>
     {{ 'profile.title' | transloco }}
-  </button>
-  <button mat-menu-item
-          [matMenuTriggerFor]="languageMenu">
-    {{ 'language.title' | transloco }}
-  </button>
-  <button mat-menu-item
-          [matMenuTriggerFor]="themeMenu">
-    {{ 'theme.title' | transloco }}
   </button>
   <mat-divider></mat-divider>
   <button mat-menu-item
@@ -46,28 +41,31 @@
   </button>
 </mat-menu>
 
-<mat-menu #languageMenu="matMenu">
+<mat-menu #preferencesMenu="matMenu">
   <button mat-menu-item
-          [class.active]="languageService.check(Language.EN)"
-          (click)="languageService.set(Language.EN)">
-    {{ 'language.en' | transloco }}
+          [matMenuTriggerFor]="languageMenu">
+    {{ 'language.title' | transloco }}
   </button>
   <button mat-menu-item
-          [class.active]="languageService.check(Language.RO)"
-          (click)="languageService.set(Language.RO)">
-    {{ 'language.ro' | transloco }}
+          [matMenuTriggerFor]="themeMenu">
+    {{ 'theme.title' | transloco }}
+  </button>
+</mat-menu>
+
+<mat-menu #languageMenu="matMenu">
+  <button *ngFor="let language of languages"
+          mat-menu-item
+          [class.active]="preferencesService.checkLanguage(language)"
+          (click)="preferencesService.setLanguage(language)">
+    {{ 'language.' + language | transloco }}
   </button>
 </mat-menu>
 
 <mat-menu #themeMenu="matMenu">
-  <button mat-menu-item
-          [class.active]="themeService.check(Theme.LIGHT)"
-          (click)="themeService.set(Theme.DARK)">
-    {{ 'theme.light' | transloco }}
-  </button>
-  <button mat-menu-item
-          [class.active]="themeService.check(Theme.DARK)"
-          (click)="themeService.set(Theme.DARK)">
-    {{ 'theme.dark' | transloco }}
+  <button *ngFor="let theme of themes"
+          mat-menu-item
+          [class.active]="preferencesService.checkTheme(theme)"
+          (click)="preferencesService.setTheme(theme)">
+    {{ 'theme.' + theme | transloco }}
   </button>
 </mat-menu>

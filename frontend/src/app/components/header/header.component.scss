@@ -3,31 +3,27 @@
   align-items: center;
 }
 
-.profile-container {
+.header-container {
   margin-left: auto;
   display: inline-flex;
-  gap: 5px;
+  gap: 3px;
 
-  mat-divider {
-    border-right-color: var(--mat-toolbar-container-text-color);
+  .profile-button {
+    img {
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 50%;
+      margin: auto;
+    }
   }
-}
 
-.image-container {
-  width: 35px;
-  height: 35px;
-  position: relative;
-  border-radius: 50%;
+  .auth-actions {
+    display: inline-flex;
+    gap: 5px;
 
-  img {
-    border-radius: 50%;
-  }
-}
-
-.image-container:hover {
-  img {
-    scale: 1.1;
-    cursor: pointer;
+    mat-divider {
+      border-right-color: var(--mat-toolbar-container-text-color);
+    }
   }
 }
 

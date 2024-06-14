@@ -49,5 +49,9 @@
     "exit": "Exit",
     "signOutWarning": "Are you sure you want to sign out?",
     "cancel": "Cancel"
+  },
+  "error": {
+    "error": "Error",
+    "updatePreferences": "Could not update account preferences"
   }
 }

@@ -48,9 +48,9 @@
     <mat-form-field>
       <mat-icon matSuffix>local_phone</mat-icon>
       <mat-label>{{ 'field.phoneNumber' | transloco }}</mat-label>
-      <ngx-mat-input-tel
-        [preferredCountries]="['md', 'ro']"
-        formControlName="phoneNumber"/>
+      <ngx-mat-input-tel [enableSearch]="true"
+                         [preferredCountries]="['md', 'ro']"
+                         formControlName="phoneNumber"/>
       <mat-error>{{ getError('phoneNumber') }}</mat-error>
     </mat-form-field>
   </form>

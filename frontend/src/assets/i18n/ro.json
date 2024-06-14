@@ -1,1 +1,53 @@
-{}
+{
+  "title": "Cutback",
+  "auth": {
+    "signIn": "Autentificare",
+    "signUp": "Înregistrare",
+    "badCredentials": "Nume de utilizator sau parolă incorecte",
+    "finish": "Finalizare",
+    "signOut": "Deconectare"
+  },
+  "field": {
+    "username": "Nume de utilizator",
+    "password": "Parolă",
+    "firstName": "Prenume",
+    "lastName": "Nume",
+    "gender": "Gen",
+    "birthDate": "Data nașterii",
+    "email": "Email",
+    "phoneNumber": "Număr de telefon"
+  },
+  "gender": {
+    "male": "Bărbat",
+    "female": "Femeie",
+    "other": "Altul"
+  },
+  "violationCode": {
+    "required": "este obligatoriu",
+    "minlength": "trebuie să aibă cel puțin {requiredLength} caractere",
+    "maxlength": "trebuie să aibă {requiredLength} sau mai puține caractere",
+    "email": "nu este valid",
+    "phoneNumber": "nu este valid",
+    "unique": "deja există",
+    "validatePhoneNumber": "nu este valid",
+    "past": "trebuie să fie în trecut"
+  },
+  "profile": {
+    "title": "Profil"
+  },
+  "language": {
+    "title": "Limbă",
+    "en": "Engleză",
+    "ro": "Română"
+  },
+  "theme": {
+    "title": "Temă",
+    "light": "Deschisă",
+    "dark": "Întunecată"
+  },
+  "alert": {
+    "exit": "Ieșire",
+    "signOutWarning": "Sigur doriți să vă deconectați?",
+    "cancel": "Anulare"
+  }
+}

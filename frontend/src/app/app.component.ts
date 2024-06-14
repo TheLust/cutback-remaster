@@ -8,8 +8,11 @@ import { handle, parseErrorResponse } from "./error/error-utils";
 import { ErrorCode, ErrorResponse } from "./models/error/error-response";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateAccountDialogComponent } from "./components/create-account-dialog/create-account-dialog.component";
-import { LanguageService } from "./services/language/language.service";
-import { ThemeService } from "./services/theme/theme.service";
+import { LanguageService } from "./services/preferences/language/language.service";
+import { ThemeService } from "./services/preferences/theme/theme.service";
+import { Preferences } from "./models/response/preferences";
+import { PreferencesService } from "./services/preferences/preferences.service";
+import { toProfile } from "./models/mapper/model-mapper";
 
 @Component({
   selector: 'app-root',
@@ -27,27 +30,29 @@ import { ThemeService } from "./services/theme/theme.service";
 export class AppComponent {
   profile: Profile | undefined;
 
-  constructor(profileService: ProfileService,
-              languageService: LanguageService,
-              themeService: ThemeService,
+  constructor(private profileService: ProfileService,
+              private preferencesService: PreferencesService,
               private dialog: MatDialog) {
-    if (profileService.checkToken()) {
-      profileService.get()
-        .then((value: Profile) => {
-          this.profile = value;
-          languageService.set(value.preferences.language);
-          themeService.set(value.preferences.theme);
-        })
-        .catch(error => {
+    this.setUp();
+  }
+
+  private setUp() {
+    if (this.profileService.checkToken()) {
+      this.profileService.get()
+        .then(value => {
+          this.profile = toProfile(value);
+          console.log(this.profile);
+        }).catch(error => {
           const errorResponse: ErrorResponse = parseErrorResponse(error);
           if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
             this.createAccountForUser();
           } else {
             handle(errorResponse);
           }
-        });
+        }).finally(() => {
+        this.preferencesService.setPreferences(this.profile);
+      });
     }
-
   }
 
   private createAccountForUser() {
