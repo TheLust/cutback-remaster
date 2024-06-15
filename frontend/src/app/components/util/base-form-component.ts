@@ -2,14 +2,29 @@ import { AbstractControl, FormGroup, ValidationErrors } from "@angular/forms";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { translate, TranslocoService } from "@ngneat/transloco";
 import { inject } from "@angular/core";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { SpinnerDialogComponent } from "../spinner-dialog/spinner-dialog.component";
 
 export class BaseFormComponent {
 
+  private dialog: MatDialog;
+
+  private spinnerRef: MatDialogRef<SpinnerDialogComponent> | undefined;
   private _spinner: boolean = false;
   public form: FormGroup;
+  public loaded: boolean | undefined;
 
   constructor(form: FormGroup) {
+    this.dialog = inject(MatDialog);
     this.form = form;
+
+    const transloco = inject(TranslocoService);
+    transloco.load(transloco.getActiveLang())
+      .subscribe({
+        next: () => {
+          this.loaded = true;
+        }
+      });
   }
 
   public get spinner() {
@@ -19,12 +34,40 @@ export class BaseFormComponent {
   public set spinner(spinner: boolean) {
     this._spinner = spinner;
     if (spinner) {
-      this.form?.disable();
+     this.disableForm();
+      this.spinnerRef = this.dialog.open(
+        SpinnerDialogComponent,
+        {
+          disableClose: true,
+          panelClass: ['spinner']
+        }
+      );
     } else {
-      const currentErrors = this.getCurrentErrors(this.form);
-      this.form.enable();
-      this.setErrors(this.form, currentErrors);
+      this.enableForm();
     }
+  }
+
+  public formReadonly() {
+    // for (let controlName in this.form.controls) {
+    //   const control: AbstractControl | null = this.form.get(controlName);
+    //   if (control) {
+    //     console.log(control);
+    //     control.disable()
+    //   }
+    // }
+
+    this.form.disable();
+  }
+
+  private disableForm() {
+    this.form?.disable();
+  }
+
+  private enableForm() {
+    const currentErrors = this.getCurrentErrors(this.form);
+    this.form.enable();
+    this.spinnerRef?.close();
+    this.setErrors(this.form, currentErrors);
   }
 
   public getError(controlName: string): string {

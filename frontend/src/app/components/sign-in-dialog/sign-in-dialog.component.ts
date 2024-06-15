@@ -12,7 +12,6 @@ import { handle, parseErrorResponse } from "../../error/error-utils";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { NgIf } from "@angular/common";
 import { MatCard, MatCardContent } from "@angular/material/card";
-import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { BaseFormComponent } from "../util/base-form-component";
 import { MatError } from "@angular/material/form-field";
@@ -38,8 +37,7 @@ import { MatError } from "@angular/material/form-field";
     MatProgressSpinner,
     NgIf,
     MatCard,
-    MatCardContent,
-    ProgressSpinnerComponent
+    MatCardContent
   ],
   templateUrl: './sign-in-dialog.component.html',
   styleUrl: './sign-in-dialog.component.scss'
@@ -49,7 +47,7 @@ export class SignInDialogComponent extends BaseFormComponent{
   hidePassword: boolean;
   badCredentials: boolean;
 
-  constructor(public dialogRef: MatDialogRef<SignInDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<SignInDialogComponent>,
               private authService: AuthService) {
     super(
       new FormGroup({

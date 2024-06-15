@@ -43,26 +43,37 @@ $dark-theme: mat.define-theme((
 
 .dark {
   @include mat.all-component-colors($dark-theme);
+}
 
+.mat-form-field-disabled {
   .country-selector-code {
-    color: var(--mdc-filled-text-field-input-text-color) !important;
+    color: var(----mdc-filled-text-field-disabled-input-text-color) !important;
   }
+}
 
-  .ngx-mat-input-tel-mat-menu-panel {
-    border-radius: 10px;
+.country-selector-code {
+  color: var(--mdc-filled-text-field-input-text-color) !important;
+  font-family: var(--mat-form-field-container-text-font) !important;
+  line-height: var(--mat-form-field-container-text-line-height) !important;
+  font-size: var(--mat-form-field-container-text-size) !important;
+  letter-spacing: var(--mat-form-field-container-text-tracking) !important;
+  font-weight: var(--mat-form-field-container-text-weight) !important;
+}
 
-    .mat-mdc-menu-content {
-      padding-top: 0;
-    }
+.ngx-mat-input-tel-mat-menu-panel {
+  border-radius: 10px;
+
+  .mat-mdc-menu-content {
+    padding-top: 0;
   }
+}
 
-  .country-search {
-    background: var(--mdc-filled-text-field-container-color);
-    color: var(--mdc-filled-text-field-input-text-color);
-    border-bottom: none !important;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
+.country-search {
+  background: var(--mdc-filled-text-field-container-color);
+  color: var(--mdc-filled-text-field-input-text-color);
+  border-bottom: none !important;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.
@@ -75,3 +86,28 @@ $dark-theme: mat.define-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+$error-container-color: #ba1a1a;
+$error-text-color: var(--mat-app-text-color);
+
+.error {
+  .mat-mdc-snackbar-surface {
+    background-color: $error-container-color !important;
+    color: $error-text-color !important;
+
+    button {
+      color: $error-text-color;
+    }
+  }
+}
+
+.small-dialog {
+  max-width: 400px !important;
+}
+
+.spinner {
+  .mat-mdc-dialog-surface {
+    background-color: transparent;
+  }
+}

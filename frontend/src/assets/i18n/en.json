@@ -15,7 +15,9 @@
     "gender": "Gender",
     "birthDate": "Birth date",
     "email": "Email",
-    "phoneNumber": "Phone number"
+    "phoneNumber": "Phone number",
+    "language": "Language",
+    "theme": "Theme"
   },
   "gender": {
     "male": "Male",
@@ -33,7 +35,13 @@
     "past": "must be in the past"
   },
   "profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "greeting": "Hi",
+    "preferences": "Preferences",
+    "cancel": "Cancel",
+    "changePassword": "Change password",
+    "save": "Save",
+    "edit": "Edit"
   },
   "language": {
     "title": "Language",
@@ -45,10 +53,19 @@
     "light": "Light",
     "dark": "Dark"
   },
-  "alert": {
-    "exit": "Exit",
-    "signOutWarning": "Are you sure you want to sign out?",
-    "cancel": "Cancel"
+  "confirmDialog": {
+    "default": {
+      "title": "Confirmation",
+      "text": "Are you sure you want to proceed?",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "signOut": {
+      "title": "Exit",
+      "text": "Are you sure you want to sign out?",
+      "cancel": "Cancel",
+      "confirm": "Sign out"
+    }
   },
   "error": {
     "error": "Error",

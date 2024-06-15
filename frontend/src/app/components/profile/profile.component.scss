@@ -1,0 +1,60 @@
+#container {
+  padding: 10px;
+  position: relative;
+
+  #form-container {
+    margin: 0 auto;
+    max-width: 560px;
+
+    mat-card-header {
+      justify-content: center;
+
+      mat-card-title,
+      mat-card-subtitle {
+        text-align: center;
+      }
+
+      mat-card-subtitle {
+        margin-bottom: 10px;
+      }
+    }
+
+    mat-card-content {
+      mat-form-field {
+        width: 100%;
+      }
+
+      #birth-date-field-button {
+        margin-right: 6px;
+      }
+
+      .preferences-container {
+        .section-title {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+
+        .form-container {
+          display: flex;
+          justify-content: space-between;
+
+          mat-form-field {
+            width: calc(50% - 5px);
+          }
+        }
+      }
+    }
+
+    .actions {
+      width: 100%;
+      margin: 0 10px;
+      display: inline-flex;
+      justify-content: space-between;
+    }
+
+    .edit-button-container {
+      justify-content: end;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatSidenav } from "@angular/material/sidenav";
 import { NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
-import { translate, TranslocoPipe } from "@ngneat/transloco";
+import { TranslocoPipe } from "@ngneat/transloco";
 import { MatDialog } from "@angular/material/dialog";
 import { SignInDialogComponent } from "../sign-in-dialog/sign-in-dialog.component";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
@@ -17,12 +17,11 @@ import { handle, parseErrorResponse } from "../../error/error-utils";
 import { CreateAccountDialogComponent } from "../create-account-dialog/create-account-dialog.component";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { MatOption, MatSelect } from "@angular/material/select";
-import { fireConfirmDialog } from "../util/alert-utils";
-import { LanguageService } from "../../services/preferences/language/language.service";
 import { Language, Theme } from "../../models/response/preferences";
-import { ThemeService } from "../../services/preferences/theme/theme.service";
 import { PreferencesService } from "../../services/preferences/preferences.service";
 import { toProfile } from "../../models/mapper/model-mapper";
+import { DialogService } from "../../services/dialog/dialog.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -56,7 +55,9 @@ export class HeaderComponent {
   readonly themes: Theme[] = Object.values(Theme);
 
   constructor(public preferencesService: PreferencesService,
+              private router: Router,
               private profileService: ProfileService,
+              private dialogService: DialogService,
               private dialog: MatDialog) {
     this.profileChange = new EventEmitter<Profile>;
   }
@@ -68,7 +69,12 @@ export class HeaderComponent {
   }
 
   public register() {
-    const dialogRef = this.dialog.open(SignUpDialogComponent);
+    const dialogRef = this.dialog.open(
+      SignUpDialogComponent,
+      {
+        panelClass: ['small-dialog']
+      }
+    );
 
     dialogRef.afterClosed()
       .subscribe((authDialogResponse: AuthDialogResponse) => {
@@ -83,7 +89,12 @@ export class HeaderComponent {
   }
 
   public login() {
-    const dialogRef = this.dialog.open(SignInDialogComponent);
+    const dialogRef = this.dialog.open(
+      SignInDialogComponent,
+      {
+        panelClass: ['small-dialog']
+      }
+    );
 
     dialogRef.afterClosed()
       .subscribe((authDialogResponse: AuthDialogResponse) => {
@@ -97,18 +108,18 @@ export class HeaderComponent {
       });
   }
 
+  public toProfilePage() {
+    this.router.navigate(['profile']).then();
+  }
+
   public signOut() {
-    fireConfirmDialog(
-      translate('alert.exit'),
-      translate('alert.signOutWarning'),
-      translate('alert.cancel'),
-      translate('auth.signOut')
-    ).then(result => {
-      if (result.isConfirmed) {
-        this.profileService.deleteToken();
-        this.profileChange.emit(undefined);
-      }
-    });
+    this.dialogService.confirm('signOut')
+      .then(result => {
+        if (result) {
+          this.profileService.deleteToken();
+          this.profileChange.emit(undefined);
+        }
+      });
   }
 
   private setTokenAndChangeProfile(token: string) {

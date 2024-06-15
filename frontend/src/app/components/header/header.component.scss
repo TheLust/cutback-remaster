@@ -16,15 +16,6 @@
       margin: auto;
     }
   }
-
-  .auth-actions {
-    display: inline-flex;
-    gap: 5px;
-
-    mat-divider {
-      border-right-color: var(--mat-toolbar-container-text-color);
-    }
-  }
 }
 
 .sign-out-button {

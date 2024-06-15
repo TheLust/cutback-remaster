@@ -11,7 +11,6 @@ import { MatError, MatFormField, MatLabel, MatSuffix } from "@angular/material/f
 import { MatIcon } from "@angular/material/icon";
 import { MatInput } from "@angular/material/input";
 import { NgIf } from "@angular/common";
-import { ProgressSpinnerComponent } from "../progress-spinner/progress-spinner.component";
 import { TranslocoPipe } from "@ngneat/transloco";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { BaseFormComponent } from "../util/base-form-component";
@@ -35,7 +34,6 @@ import { BaseFormComponent } from "../util/base-form-component";
     MatSuffix,
     MatError,
     NgIf,
-    ProgressSpinnerComponent,
     ReactiveFormsModule,
     TranslocoPipe
   ],
@@ -45,7 +43,7 @@ import { BaseFormComponent } from "../util/base-form-component";
 export class SignUpDialogComponent extends BaseFormComponent{
   hidePassword: boolean;
 
-  constructor(public dialogRef: MatDialogRef<SignUpDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<SignUpDialogComponent>,
               private authService: AuthService) {
     super(
       new FormGroup({

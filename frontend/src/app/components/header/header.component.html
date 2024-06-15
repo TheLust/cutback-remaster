@@ -9,19 +9,11 @@
   <div class="header-container">
     <button mat-icon-button
             class="profile-button"
-            *ngIf="profile"
             [matMenuTriggerFor]="profileMenu">
       <img [ngSrc]="'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-1.jpg'"
            alt="profile-image"
            fill="fill">
     </button>
-    <div *ngIf="!profile" class="auth-actions">
-      <button mat-button
-              (click)="login()">{{ 'auth.signIn' | transloco }}</button>
-      <mat-divider [vertical]="true"/>
-      <button mat-button
-              (click)="register()">{{ 'auth.signUp' | transloco }}</button>
-    </div>
 <!--    <mat-divider [vertical]="true"></mat-divider>-->
     <button mat-icon-button
             [matMenuTriggerFor]="preferencesMenu">
@@ -31,12 +23,25 @@
 </mat-toolbar>
 
 <mat-menu #profileMenu="matMenu">
-  <button mat-menu-item>
+  <button *ngIf="profile"
+          mat-menu-item
+          (click)="toProfilePage()">
     {{ 'profile.title' | transloco }}
   </button>
+  <button *ngIf="!profile"
+          mat-menu-item
+          (click)="login()">
+    {{ 'auth.signIn' | transloco }}
+  </button>
   <mat-divider></mat-divider>
-  <button mat-menu-item
-          class="sign-out-button" (click)="signOut()">
+  <button *ngIf="!profile" mat-menu-item
+          (click)="register()">
+    {{ 'auth.signUp' | transloco }}
+  </button>
+  <button *ngIf="profile"
+          mat-menu-item
+          class="sign-out-button"
+          (click)="signOut()">
     {{ 'auth.signOut' | transloco }}
   </button>
 </mat-menu>

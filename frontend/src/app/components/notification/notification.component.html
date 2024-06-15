@@ -1,0 +1,18 @@
+<div matSnackBarLabel [class.error]="error">
+  <h3>{{ text | transloco }}</h3>
+</div>
+<div matSnackBarActions class="actions">
+  <button *ngIf="icon"
+          mat-icon-button
+          matSnackBarAction
+          [class.error]="error"
+          (click)="close()">
+    <mat-icon>{{ button }}</mat-icon>
+  </button>
+  <button *ngIf="!icon"
+          mat-button
+          matSnackBarAction
+          (click)="close()">
+    {{ button | transloco }}
+  </button>
+</div>

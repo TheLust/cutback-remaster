@@ -6,8 +6,7 @@ import { Profile } from "../../models/response/profile";
 import { Service } from "../service";
 import { HttpClient } from "@angular/common/http";
 import { lastValueFrom } from "rxjs";
-import { fireNonFatalError } from "../../components/util/alert-utils";
-import { translate } from "@ngneat/transloco";
+import { NotificationService } from "../notification/notification.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +17,7 @@ export class PreferencesService extends Service {
 
   constructor(private languageService: LanguageService,
               private themeService: ThemeService,
+              private notificationService: NotificationService,
               private http: HttpClient) {
     super();
   }
@@ -58,11 +58,8 @@ export class PreferencesService extends Service {
         }
       )
     ).then(() => {
-      console.log("updated");
-    }).catch(error => {
-      // fireNonFatalError(translate('error.updatePreferences')).then();//TODO: fire error dialog notification
-      console.log('error');
-      console.log(error)
+    }).catch(() => {
+      this.notificationService.fireErrorNotification('error.updatePreferences');
     });
     this.languageService.set(language);
   }
@@ -81,11 +78,8 @@ export class PreferencesService extends Service {
         }
       )
     ).then(() => {
-      console.log("updated");
-    }).catch(error => {
-      // fireNonFatalError(translate('error.updatePreferences')).then();//TODO: fire error dialog notification
-      console.log('error');
-      console.log(error)
+    }).catch(() => {
+      this.notificationService.fireErrorNotification('error.updatePreferences');
     });
     this.themeService.set(theme);
   }

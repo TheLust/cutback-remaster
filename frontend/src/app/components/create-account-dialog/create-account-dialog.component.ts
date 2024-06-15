@@ -1,24 +1,23 @@
-import {Component} from '@angular/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
-import {MatCard, MatCardContent} from "@angular/material/card";
-import {TranslocoPipe} from "@ngneat/transloco";
-import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
-import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatIcon} from "@angular/material/icon";
-import {BaseFormComponent} from "../util/base-form-component";
-import {ProgressSpinnerComponent} from "../progress-spinner/progress-spinner.component";
-import {MatButton} from "@angular/material/button";
-import {MatInput} from "@angular/material/input";
-import {NgIf} from "@angular/common";
-import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
-import {MatOption, MatSelect} from "@angular/material/select";
-import {Gender} from "../../models/response/gender";
-import {Profile} from "../../models/response/profile";
-import {ProfileService} from "../../services/profile/profile.service";
-import {ErrorCode, ErrorResponse} from "../../models/error/error-response";
-import {handle, parseErrorResponse} from "../../error/error-utils";
-import {NgxMatInputTelComponent} from "ngx-mat-input-tel";
-import {CustomValidators} from "../util/custom-validators";
+import { Component } from '@angular/core';
+import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from "@angular/material/dialog";
+import { MatCard, MatCardContent } from "@angular/material/card";
+import { TranslocoPipe } from "@ngneat/transloco";
+import { MatError, MatFormField, MatLabel, MatSuffix } from "@angular/material/form-field";
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatIcon } from "@angular/material/icon";
+import { BaseFormComponent } from "../util/base-form-component";
+import { MatButton } from "@angular/material/button";
+import { MatInput } from "@angular/material/input";
+import { NgIf } from "@angular/common";
+import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from "@angular/material/datepicker";
+import { MatOption, MatSelect } from "@angular/material/select";
+import { Gender } from "../../models/response/gender";
+import { Profile } from "../../models/response/profile";
+import { ProfileService } from "../../services/profile/profile.service";
+import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
+import { handle, parseErrorResponse } from "../../error/error-utils";
+import { NgxMatInputTelComponent } from "ngx-mat-input-tel";
+import { CustomValidators } from "../util/custom-validators";
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -34,7 +33,6 @@ import {CustomValidators} from "../util/custom-validators";
     MatError,
     ReactiveFormsModule,
     MatIcon,
-    ProgressSpinnerComponent,
     MatButton,
     MatInput,
     MatDialogTitle,
@@ -52,7 +50,7 @@ import {CustomValidators} from "../util/custom-validators";
 })
 export class CreateAccountDialogComponent extends BaseFormComponent {
 
-  constructor(public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<CreateAccountDialogComponent>,
               private profileService: ProfileService) {
     super(
       new FormGroup({
