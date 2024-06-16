@@ -7,7 +7,7 @@ import { SpinnerDialogComponent } from "../spinner-dialog/spinner-dialog.compone
 
 export class BaseFormComponent {
 
-  private dialog: MatDialog;
+  public dialog: MatDialog;
 
   private spinnerRef: MatDialogRef<SpinnerDialogComponent> | undefined;
   private _spinner: boolean = false;

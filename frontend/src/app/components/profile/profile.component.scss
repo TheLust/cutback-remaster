@@ -46,15 +46,16 @@
       }
     }
 
-    .actions {
+    .actions-container {
       width: 100%;
       margin: 0 10px;
       display: inline-flex;
       justify-content: space-between;
-    }
 
-    .edit-button-container {
-      justify-content: end;
+      .actions {
+        display: inline-flex;
+        gap: 5px;
+      }
     }
   }
 }

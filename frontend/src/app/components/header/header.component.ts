@@ -13,7 +13,6 @@ import { MatDivider } from "@angular/material/divider";
 import { Profile } from "../../models/response/profile";
 import { ProfileService } from "../../services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
 import { CreateAccountDialogComponent } from "../create-account-dialog/create-account-dialog.component";
 import { MatMenu, MatMenuItem, MatMenuTrigger } from "@angular/material/menu";
 import { MatOption, MatSelect } from "@angular/material/select";
@@ -22,6 +21,7 @@ import { PreferencesService } from "../../services/preferences/preferences.servi
 import { toProfile } from "../../models/mapper/model-mapper";
 import { DialogService } from "../../services/dialog/dialog.service";
 import { Router } from "@angular/router";
+import { ErrorService } from "../../services/error/error.service";
 
 @Component({
   selector: 'app-header',
@@ -58,6 +58,7 @@ export class HeaderComponent {
               private router: Router,
               private profileService: ProfileService,
               private dialogService: DialogService,
+              private errorService: ErrorService,
               private dialog: MatDialog) {
     this.profileChange = new EventEmitter<Profile>;
   }
@@ -130,11 +131,11 @@ export class HeaderComponent {
         profile = toProfile(value);
         this.profileChange.emit(profile);
       }).catch(error => {
-        const errorResponse: ErrorResponse = parseErrorResponse(error);
+        const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
         if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
           this.createAccountForUser()
         } else {
-          handle(errorResponse);
+          this.errorService.handle(errorResponse);
         }
       }).finally(() => {
         this.preferencesService.setPreferences(profile);

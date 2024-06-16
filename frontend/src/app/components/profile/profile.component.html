@@ -99,27 +99,29 @@
       </form>
     </mat-card-content>
     <mat-card-actions>
-      <div *ngIf="!edit"
-           class="actions">
+      <div class="actions-container">
         <button mat-button
-                (click)="{}">
+                (click)="changePassword()">
           {{ 'profile.changePassword' | transloco }}
         </button>
-        <button mat-stroked-button
-                (click)="edit = true">
-          {{ 'profile.edit' | transloco }}
-        </button>
-      </div>
-      <div *ngIf="edit"
-           class="actions">
-        <button mat-stroked-button
-                (click)="edit = false">
-          {{ 'profile.cancel' | transloco }}
-        </button>
-        <button mat-stroked-button
-                (click)="{}">
-          {{ 'profile.save' | transloco }}
-        </button>
+        <div *ngIf="!edit"
+             class="actions">
+          <button mat-stroked-button
+                  (click)="edit = true">
+            {{ 'profile.edit' | transloco }}
+          </button>
+        </div>
+        <div *ngIf="edit"
+             class="actions">
+          <button mat-stroked-button
+                  (click)="edit = false">
+            {{ 'profile.cancel' | transloco }}
+          </button>
+          <button mat-stroked-button
+                  (click)="update()">
+            {{ 'profile.save' | transloco }}
+          </button>
+        </div>
       </div>
     </mat-card-actions>
   </mat-card>

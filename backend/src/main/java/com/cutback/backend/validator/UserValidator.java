@@ -25,4 +25,15 @@ public class UserValidator extends BasicValidator<User> {
 
         throwErrors(errors);
     }
+
+    public void validateNoThrow(User target, Errors errors) {
+        super.validate(target, errors);
+
+        checkUnique(
+                "username",
+                target,
+                userService.findByUsername(target.getUsername()),
+                errors
+        );
+    }
 }

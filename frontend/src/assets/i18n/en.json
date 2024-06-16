@@ -17,7 +17,10 @@
     "email": "Email",
     "phoneNumber": "Phone number",
     "language": "Language",
-    "theme": "Theme"
+    "theme": "Theme",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm password"
   },
   "gender": {
     "male": "Male",
@@ -32,7 +35,10 @@
     "phoneNumber": "is not valid",
     "unique": "already exists",
     "validatePhoneNumber": "is not valid",
-    "past": "must be in the past"
+    "past": "must be in the past",
+    "incorrect": "is incorrect",
+    "match": "does not match",
+    "same": "cannot be the current one"
   },
   "profile": {
     "title": "Profile",
@@ -70,5 +76,10 @@
   "error": {
     "error": "Error",
     "updatePreferences": "Could not update account preferences"
+  },
+  "changePassword": {
+    "title": "Change password",
+    "cancel": "Cancel",
+    "submit": "Submit"
   }
 }

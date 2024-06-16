@@ -11,5 +11,5 @@ export interface Profile {
   gender: Gender;
   birthDate: Date;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
 }

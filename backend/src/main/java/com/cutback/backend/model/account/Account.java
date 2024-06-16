@@ -24,7 +24,9 @@ public class Account {
     private User user;
 
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
     private Preferences preferences;
 
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)

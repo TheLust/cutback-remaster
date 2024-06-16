@@ -1,8 +1,6 @@
 package com.cutback.backend.validator;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
-import com.cutback.backend.dto.error.ErrorCode;
-import com.cutback.backend.exception.CutbackException;
 import com.cutback.backend.exception.ValidationException;
 import jakarta.persistence.Id;
 import jakarta.validation.ConstraintViolation;
@@ -19,7 +17,11 @@ public class BasicValidator<T> {
     private final Field ID_FIELD;
 
     public BasicValidator() {
-        this.ID_FIELD = getIdField();
+        this(true);
+    }
+
+    public BasicValidator(boolean isEntity) {
+        this.ID_FIELD = isEntity ? getIdField() : null;
     }
 
     public void validate(T target, Errors errors) {
@@ -30,7 +32,7 @@ public class BasicValidator<T> {
                 errors.rejectValue(violation.getPropertyPath().toString(), violation.getMessage());
             }
         } catch (Exception e) {
-            throw new CutbackException("Cannot get validator from factory", ErrorCode.INTERNAL_ERROR);
+            throw new RuntimeException("Cannot get validator from factory");
         }
     }
 
@@ -49,6 +51,10 @@ public class BasicValidator<T> {
                             T entity,
                             Optional<T> foundEntity,
                             Errors errors) {
+        if (ID_FIELD == null) {
+            throw new RuntimeException("Cannot use this unique validator for non entities");
+        }
+
         if (foundEntity.isPresent()) {
             Object entityId = getIdValue(entity);
             Object foundId = getIdValue(foundEntity.get());
@@ -81,7 +87,7 @@ public class BasicValidator<T> {
         try {
             return ID_FIELD.get(entity);
         } catch (IllegalAccessException e) {
-            throw new CutbackException("Could not get id value", ErrorCode.INTERNAL_ERROR);
+            throw new RuntimeException("Could not get id value");
         }
     }
 }

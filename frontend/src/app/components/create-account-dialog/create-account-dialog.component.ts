@@ -15,9 +15,9 @@ import { Gender } from "../../models/response/gender";
 import { Profile } from "../../models/response/profile";
 import { ProfileService } from "../../services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
 import { NgxMatInputTelComponent } from "ngx-mat-input-tel";
 import { CustomValidators } from "../util/custom-validators";
+import { ErrorService } from "../../services/error/error.service";
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -51,7 +51,8 @@ import { CustomValidators } from "../util/custom-validators";
 export class CreateAccountDialogComponent extends BaseFormComponent {
 
   constructor(private dialogRef: MatDialogRef<CreateAccountDialogComponent>,
-              private profileService: ProfileService) {
+              private profileService: ProfileService,
+              private errorService: ErrorService) {
     super(
       new FormGroup({
         firstName: new FormControl(
@@ -102,12 +103,12 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
         .then((value: Profile) => {
           this.dialogRef.close(value);
         }).catch(error => {
-          const errorResponse: ErrorResponse = parseErrorResponse(error);
+          const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
           console.log(errorResponse);
           if (errorResponse.errorCode == ErrorCode.VALIDATION_ERROR) {
             this.putErrors(errorResponse);
           } else {
-            handle(errorResponse);
+            this.errorService.handle(errorResponse);
           }
         }).finally(() => {
           this.spinner = false;

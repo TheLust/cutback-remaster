@@ -43,6 +43,12 @@ $dark-theme: mat.define-theme((
 
 .dark {
   @include mat.all-component-colors($dark-theme);
+  .mat-form-field-disabled {
+    .country-selector-code {
+      color: #6b6c6f !important;
+      font-weight: 570 !important;
+    }
+  }
 }
 
 .mat-form-field-disabled {

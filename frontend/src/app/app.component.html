@@ -1,6 +1,19 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
-    dffdsf
+    <div id="sidenav-container">
+      <div id="title-container">
+        <h2>Menu</h2>
+      </div>
+      <button mat-menu-item
+              (click)="navigateTo('home')">
+        <mat-icon>
+          home
+        </mat-icon>
+        <h4>
+          Hoe, oops Home
+        </h4>
+      </button>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-header [sidenav]="sidenav" [(profile)]="profile"/>

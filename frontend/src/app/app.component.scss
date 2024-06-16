@@ -1,3 +1,13 @@
 mat-sidenav-container {
   min-height: 100%;
+
+  #sidenav-container {
+    padding: 5px;
+
+    #title-container {
+      h2 {
+        margin-left: 10px;
+      }
+    }
+  }
 }

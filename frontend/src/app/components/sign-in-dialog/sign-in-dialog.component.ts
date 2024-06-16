@@ -8,13 +8,13 @@ import { MatButton, MatIconButton } from "@angular/material/button";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { AuthRequest } from "../../models/request/auth-request";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { NgIf } from "@angular/common";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { BaseFormComponent } from "../util/base-form-component";
 import { MatError } from "@angular/material/form-field";
+import { ErrorService } from "../../services/error/error.service";
 
 @Component({
   selector: 'app-sign-in-dialog',
@@ -48,7 +48,8 @@ export class SignInDialogComponent extends BaseFormComponent{
   badCredentials: boolean;
 
   constructor(private dialogRef: MatDialogRef<SignInDialogComponent>,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private errorService: ErrorService) {
     super(
       new FormGroup({
         username: new FormControl(
@@ -87,12 +88,11 @@ export class SignInDialogComponent extends BaseFormComponent{
           });
         }).catch(error => {
           console.log(error);
-          const errorResponse: ErrorResponse = parseErrorResponse(error);
+          const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
           if (ErrorCode.BAD_CREDENTIALS === errorResponse.errorCode) {
             this.badCredentials = true;
-            console.log("bad");
           } else {
-            handle(errorResponse);
+            this.errorService.handle(errorResponse);
           }
       }).finally(() => this.spinner = false);
     }

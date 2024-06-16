@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   MatCard,
   MatCardActions,
@@ -21,11 +21,13 @@ import { NgForOf, NgIf } from "@angular/common";
 import { NgxMatInputTelComponent } from "ngx-mat-input-tel";
 import { TranslocoPipe } from "@ngneat/transloco";
 import { toProfile } from "../../models/mapper/model-mapper";
-import { ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
+import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { Profile } from "../../models/response/profile";
 import { Language, Theme } from "../../models/response/preferences";
 import { MatButton } from "@angular/material/button";
+import { ChangePasswordDialogComponent } from "../change-password-dialog/change-password-dialog.component";
+import { lastValueFrom } from "rxjs";
+import { ErrorService } from "../../services/error/error.service";
 
 @Component({
   selector: 'app-profile',
@@ -59,7 +61,7 @@ import { MatButton } from "@angular/material/button";
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent extends BaseFormComponent implements AfterViewInit{
+export class ProfileComponent extends BaseFormComponent {
 
   profile: Profile | undefined;
 
@@ -77,12 +79,15 @@ export class ProfileComponent extends BaseFormComponent implements AfterViewInit
       this.form.enable();
     } else {
       this.setForm(this.profile ? this.profile : {} as Profile);
-      this.form.disable();
+      setTimeout(() => {
+        this.form.disable();
+      }, 50);
     }
     this._edit = edit;
   }
 
-  constructor(private profileService: ProfileService) {
+  constructor(private profileService: ProfileService,
+              private errorService: ErrorService) {
     super(
       new FormGroup({
         username: new FormControl(
@@ -141,21 +146,52 @@ export class ProfileComponent extends BaseFormComponent implements AfterViewInit
         )
       })
     );
-  }
 
-  ngAfterViewInit(): void {
     this.spinner = true;
     this.profileService.get()
       .then(value => {
         this.profile = toProfile(value);
         this.setForm(this.profile);
       }).catch(error => {
-      const errorResponse: ErrorResponse = parseErrorResponse(error);
-      handle(errorResponse);
+      const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
+      this.errorService.handle(errorResponse);
     }).finally(() => {
       this.spinner = false;
       this.form.disable();
     });
+  }
+
+  public update() {
+    this.spinner = true;
+    this.profileService.update(this.getProfile())
+      .then((profile: Profile) => {
+        this.profile = toProfile(profile);
+        this.edit = false;
+      }).catch(error => {
+        const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
+        if (errorResponse.errorCode == ErrorCode.VALIDATION_ERROR) {
+          this.putErrors(errorResponse);
+        } else {
+          this.errorService.handle(errorResponse);
+        }
+    }).finally(() => {
+      this.spinner = false;
+    });
+  }
+
+  public changePassword() {
+    lastValueFrom(
+      this.dialog.open(
+        ChangePasswordDialogComponent,
+        {
+          disableClose: true
+        }
+      ).afterClosed()
+    ).then((token: string | undefined) => {
+      if (token) {
+        this.profileService.setToken(token);
+      }
+    })
   }
 
   public isGender(gender: Gender): boolean {
@@ -169,6 +205,17 @@ export class ProfileComponent extends BaseFormComponent implements AfterViewInit
     }
 
     return false;
+  }
+
+  private getProfile(): Profile {
+    const value = this.form.value;
+    const profile: Profile = value as Profile;
+    profile.preferences = {
+      language: value.language.toUpperCase(),
+      theme: value.theme.toUpperCase()
+    }
+
+    return profile;
   }
 
   private setForm(profile: Profile) {

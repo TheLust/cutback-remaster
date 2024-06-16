@@ -4,7 +4,6 @@ import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from
 import { AuthService } from "../../services/auth/auth.service";
 import { AuthRequest } from "../../models/request/auth-request";
 import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
-import { handle, parseErrorResponse } from "../../error/error-utils";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { MatError, MatFormField, MatLabel, MatSuffix } from "@angular/material/form-field";
@@ -14,6 +13,7 @@ import { NgIf } from "@angular/common";
 import { TranslocoPipe } from "@ngneat/transloco";
 import { AuthDialogResponse } from "../../models/dialog/auth-dialog-response";
 import { BaseFormComponent } from "../util/base-form-component";
+import { ErrorService } from "../../services/error/error.service";
 
 @Component({
   selector: 'app-sign-up-dialog',
@@ -44,7 +44,8 @@ export class SignUpDialogComponent extends BaseFormComponent{
   hidePassword: boolean;
 
   constructor(private dialogRef: MatDialogRef<SignUpDialogComponent>,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private errorService: ErrorService) {
     super(
       new FormGroup({
         username: new FormControl(
@@ -81,11 +82,11 @@ export class SignUpDialogComponent extends BaseFormComponent{
             token: token
           });
         }).catch(error => {
-        const errorResponse: ErrorResponse = parseErrorResponse(error);
+        const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
         if (errorResponse.errorCode == ErrorCode.VALIDATION_ERROR) {
           this.putErrors(errorResponse);
         } else {
-          handle(errorResponse);
+          this.errorService.handle(errorResponse);
         }
       }).finally(() => {
         this.spinner = false;
