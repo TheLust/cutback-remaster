@@ -149,18 +149,19 @@ public class ProfileFacade {
         return authFacade.login(authRequest, bindingResult);
     }
 
-    public byte[] changeImage(User user,
-                              MultipartFile imageFile) {
+    public Profile changeImage(User user,
+                               MultipartFile imageFile) {
         Image image = imageManager.save(imageFile);
         Account account = user.getAccount();
         account.setImage(image);
-        accountService.update(account, account);
 
-        return imageManager.get(image, Size.MEDIUM);
+        return mapper.toProfile(
+                accountService.update(account, account)
+        );
     }
 
     public byte[] getImage(User user,
-                                  Size size) {
+                           Size size) {
         return imageManager.get(
                 user.getAccount().getImage(),
                 size

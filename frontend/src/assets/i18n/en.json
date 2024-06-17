@@ -77,7 +77,9 @@
   },
   "error": {
     "error": "Error",
-    "updatePreferences": "Could not update account preferences"
+    "updatePreferences": "Could not update account preferences",
+    "setImage": "Could not set profile image",
+    "changeImage": "Could not change profile image"
   },
   "changePassword": {
     "title": "Change password",

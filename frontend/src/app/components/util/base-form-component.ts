@@ -3,7 +3,7 @@ import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { translate, TranslocoService } from "@ngneat/transloco";
 import { inject } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { SpinnerDialogComponent } from "../spinner-dialog/spinner-dialog.component";
+import { SpinnerDialogComponent } from "../dialog/spinner-dialog/spinner-dialog.component";
 
 export class BaseFormComponent {
 

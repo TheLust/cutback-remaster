@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "../../components/confirm-dialog/confirm-dialog.component";
+import { ConfirmDialogComponent } from "../../components/dialog/confirm-dialog/confirm-dialog.component";
 import { lastValueFrom } from "rxjs";
 import { ConfirmDialogData } from "../../models/dialog/confirm-dialog-data";
 

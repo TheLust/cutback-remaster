@@ -77,7 +77,7 @@ public class ProfileController {
     }
 
     @PutMapping("/change-image")
-    public ResponseEntity<byte[]> changeImage(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<Profile> changeImage(@AuthenticationPrincipal UserDetails userDetails,
                                               @RequestPart("image") MultipartFile imageFile) {
         return new ResponseEntity<>(
                 profileFacade.changeImage(

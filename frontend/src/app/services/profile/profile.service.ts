@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Service } from "../service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { lastValueFrom } from "rxjs";
 import { Profile } from "../../models/response/profile";
 import { ChangePasswordRequest } from '../../models/request/change-password-request';
+import { Size } from "../../models/request/size";
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +77,32 @@ export class ProfileService extends Service {
         }
       )
     );
+  }
+
+  public changeImage(image: File): Promise<Profile> {
+    const formData = new FormData();
+    formData.append('image', image);
+    return lastValueFrom(
+      this.httpClient.put<Profile>(
+        this.PROFILE_URL + '/change-image',
+          formData,
+          {
+              responseType: 'json',
+              headers: this.getHeaders()
+          }
+      )
+    );
+  }
+
+  public getImage(size: Size): Promise<Blob> {
+      return lastValueFrom(
+          this.httpClient.get(
+              this.PROFILE_URL + "/image?size=" + size,
+              {
+                  responseType: 'blob',
+                  headers: this.getHeaders()
+              }
+          )
+      );
   }
 }

@@ -1,0 +1,24 @@
+#avatar-container {
+  margin-bottom: 20px;
+
+  app-avatar {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  justify-content: space-between;
+}
+
+#title {
+  text-align: center;
+}
+
+#birth-date-field-button {
+  margin-right: 6px;
+}

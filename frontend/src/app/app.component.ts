@@ -6,7 +6,7 @@ import { Profile } from "./models/response/profile";
 import { ProfileService } from "./services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "./models/error/error-response";
 import { MatDialog } from "@angular/material/dialog";
-import { CreateAccountDialogComponent } from "./components/create-account-dialog/create-account-dialog.component";
+import { CreateAccountDialogComponent } from "./components/dialog/create-account-dialog/create-account-dialog.component";
 import { PreferencesService } from "./services/preferences/preferences.service";
 import { toProfile } from "./models/mapper/model-mapper";
 import { ErrorService } from "./services/error/error.service";
