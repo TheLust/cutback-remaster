@@ -18,6 +18,8 @@ import { ErrorCode, ErrorResponse } from "../../models/error/error-response";
 import { NgxMatInputTelComponent } from "ngx-mat-input-tel";
 import { CustomValidators } from "../util/custom-validators";
 import { ErrorService } from "../../services/error/error.service";
+import { PreferencesService } from "../../services/preferences/preferences.service";
+import { Preferences } from "../../models/response/preferences";
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -52,6 +54,7 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
 
   constructor(private dialogRef: MatDialogRef<CreateAccountDialogComponent>,
               private profileService: ProfileService,
+              private preferencesService: PreferencesService,
               private errorService: ErrorService) {
     super(
       new FormGroup({
@@ -98,6 +101,10 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
   public createAccount() {
     if (this.form.valid) {
       const profile: Profile = this.form.getRawValue() as Profile;
+      profile.preferences = {
+        language: this.preferencesService.getLanguage().toUpperCase(),
+        theme: this.preferencesService.getTheme().toUpperCase()
+      } as Preferences;
       this.spinner = true;
       this.profileService.create(profile)
         .then((value: Profile) => {
@@ -114,6 +121,10 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
           this.spinner = false;
         });
     }
+  }
+
+  public cancel() {
+    this.dialogRef.close();
   }
 
   public isGender(gender: Gender): boolean {

@@ -4,18 +4,14 @@ import com.cutback.backend.dto.request.ChangePasswordRequest;
 import com.cutback.backend.dto.response.Profile;
 import com.cutback.backend.facade.ProfileFacade;
 import com.cutback.backend.model.auth.UserDetails;
+import com.cutback.backend.model.image.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("${api.url.base}/profile")
@@ -46,6 +42,12 @@ public class ProfileController {
         );
     }
 
+    @DeleteMapping("/user")
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails) {
+        profileFacade.deleteUser(userDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping
     public ResponseEntity<Profile> update(@AuthenticationPrincipal UserDetails userDetails,
                                           @RequestBody Profile profile,
@@ -69,6 +71,30 @@ public class ProfileController {
                         userDetails.getUser(),
                         request,
                         bindingResult
+                ),
+                HttpStatus.OK
+        );
+    }
+
+    @PutMapping("/change-image")
+    public ResponseEntity<byte[]> changeImage(@AuthenticationPrincipal UserDetails userDetails,
+                                              @RequestPart("image") MultipartFile imageFile) {
+        return new ResponseEntity<>(
+                profileFacade.changeImage(
+                        userDetails.getUser(),
+                        imageFile
+                ),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> getImage(@AuthenticationPrincipal UserDetails userDetails,
+                                           @RequestParam("size") Size size) {
+        return new ResponseEntity<>(
+                profileFacade.getImage(
+                        userDetails.getUser(),
+                        size
                 ),
                 HttpStatus.OK
         );

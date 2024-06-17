@@ -1,7 +1,7 @@
 package com.cutback.backend.validator;
 
 import com.cutback.backend.model.account.Account;
-import com.cutback.backend.service.impl.AccountService;
+import com.cutback.backend.service.impl.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

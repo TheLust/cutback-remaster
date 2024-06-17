@@ -1,11 +1,7 @@
 package com.cutback.backend.validator;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
-import com.cutback.backend.dto.request.ChangePasswordRequest;
 import com.cutback.backend.dto.request.ExtendedChangePasswordRequest;
-import com.cutback.backend.model.auth.User;
-import com.cutback.backend.service.impl.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

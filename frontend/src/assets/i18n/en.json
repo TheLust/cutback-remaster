@@ -5,7 +5,9 @@
     "signUp": "Sign up",
     "badCredentials": "Incorrect username or password",
     "finish": "Finish",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "createAccount": "Create account",
+    "cancel": "Cancel"
   },
   "field": {
     "username": "Username",

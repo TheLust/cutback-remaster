@@ -119,6 +119,7 @@ export class HeaderComponent {
         if (result) {
           this.profileService.deleteToken();
           this.profileChange.emit(undefined);
+          this.router.navigate(['home']).then();
         }
       });
   }
@@ -143,15 +144,26 @@ export class HeaderComponent {
   }
 
   private createAccountForUser() {
-    const dialogRef = this.dialog.open(CreateAccountDialogComponent);
+    const dialogRef = this.dialog.open(
+      CreateAccountDialogComponent
+    );
 
     dialogRef.afterClosed()
       .subscribe(value => {
-        if (!value) {
-          this.createAccountForUser();
+        if (value) {
+          this.profile = value;
         } else {
-          this.profileChange.emit(value);
+          this.deleteUser();
         }
       });
+  }
+
+  public deleteUser() {
+    this.profileService.deleteUser()
+      .then(() => {
+        this.profileService.deleteToken();
+      }).catch(error => {
+      this.errorService.handleError(error);
+    });
   }
 }

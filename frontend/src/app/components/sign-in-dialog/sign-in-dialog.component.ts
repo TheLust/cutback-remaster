@@ -87,7 +87,6 @@ export class SignInDialogComponent extends BaseFormComponent{
             token: token
           });
         }).catch(error => {
-          console.log(error);
           const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
           if (ErrorCode.BAD_CREDENTIALS === errorResponse.errorCode) {
             this.badCredentials = true;

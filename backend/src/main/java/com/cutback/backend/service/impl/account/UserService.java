@@ -1,7 +1,8 @@
-package com.cutback.backend.service.impl;
+package com.cutback.backend.service.impl.account;
 
 import com.cutback.backend.model.auth.User;
 import com.cutback.backend.repository.UserRepository;
+import com.cutback.backend.service.impl.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -41,6 +41,17 @@ export class ProfileService extends Service {
     );
   }
 
+  public deleteUser(): Promise<void> {
+    return lastValueFrom(
+      this.httpClient.delete<void>(
+        this.PROFILE_URL + '/user',
+        {
+          headers: this.getHeaders()
+        }
+      )
+    );
+  }
+
   public update(profile: Profile): Promise<Profile> {
     return lastValueFrom(
       this.httpClient.put<Profile>(

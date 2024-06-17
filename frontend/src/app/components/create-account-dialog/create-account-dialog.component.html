@@ -1,4 +1,4 @@
-<h2 id="title" mat-dialog-title>{{ 'auth.signIn' | transloco }}</h2>
+<h2 id="title" mat-dialog-title>{{ 'auth.createAccount' | transloco }}</h2>
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field>
@@ -56,6 +56,11 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
+  <button mat-button
+          [disabled]="spinner"
+          (click)="cancel()">
+    {{ 'auth.cancel' | transloco }}
+  </button>
   <button mat-button
           [disabled]="spinner"
           (click)="createAccount()">

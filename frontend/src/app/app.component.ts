@@ -64,19 +64,25 @@ export class AppComponent {
 
   private createAccountForUser() {
     const dialogRef = this.dialog.open(
-      CreateAccountDialogComponent,
-      {
-        disableClose: true
-      }
+      CreateAccountDialogComponent
     );
 
     dialogRef.afterClosed()
       .subscribe(value => {
-        if (!value) {
-          this.createAccountForUser();
-        } else {
+        if (value) {
           this.profile = value;
+        } else {
+          this.deleteUser();
         }
       });
+  }
+
+  public deleteUser() {
+    this.profileService.deleteUser()
+      .then(() => {
+        this.profileService.deleteToken();
+      }).catch(error => {
+      this.errorService.handleError(error);
+    });
   }
 }

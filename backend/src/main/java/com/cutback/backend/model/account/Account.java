@@ -3,6 +3,7 @@ package com.cutback.backend.model.account;
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
 import com.cutback.backend.model.auth.User;
+import com.cutback.backend.model.image.Image;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -22,6 +23,9 @@ public class Account {
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
     @OneToOne
     private User user;
+
+    @OneToOne
+    private Image image;
 
     @NotNull(message = ConstraintViolationCodes.REQUIRED)
     @OneToOne(cascade = CascadeType.ALL,

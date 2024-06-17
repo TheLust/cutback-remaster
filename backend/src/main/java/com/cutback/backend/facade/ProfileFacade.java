@@ -9,12 +9,13 @@ import com.cutback.backend.exception.CutbackException;
 import com.cutback.backend.exception.ValidationException;
 import com.cutback.backend.mapper.Mapper;
 import com.cutback.backend.model.account.Account;
-import com.cutback.backend.model.account.Language;
 import com.cutback.backend.model.account.Preferences;
-import com.cutback.backend.model.account.Theme;
 import com.cutback.backend.model.auth.User;
-import com.cutback.backend.service.impl.AccountService;
-import com.cutback.backend.service.impl.UserService;
+import com.cutback.backend.model.image.Image;
+import com.cutback.backend.model.image.Size;
+import com.cutback.backend.service.impl.account.AccountService;
+import com.cutback.backend.service.impl.account.UserService;
+import com.cutback.backend.service.impl.image.ImageManager;
 import com.cutback.backend.validator.AccountValidator;
 import com.cutback.backend.validator.ChangePasswordValidator;
 import com.cutback.backend.validator.PreferencesValidator;
@@ -24,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +34,7 @@ public class ProfileFacade {
     private final AuthFacade authFacade;
     private final UserService userService;
     private final AccountService accountService;
+    private final ImageManager imageManager;
     private final PasswordEncoder passwordEncoder;
     private final Mapper mapper;
     private final UserValidator userValidator;
@@ -60,12 +63,9 @@ public class ProfileFacade {
                     ErrorCode.BAD_REQUEST
             );
         }
-        Preferences preferences = new Preferences();
-        preferences.setLanguage(Language.EN);
-        preferences.setTheme(Theme.LIGHT);
 
         Account account = mapper.toEntity(profile);
-        account.setPreferences(preferences);
+        account.setPreferences(profile.getPreferences());
         account.setUser(user);
         account.setId(null);
 
@@ -74,6 +74,17 @@ public class ProfileFacade {
         return mapper.toProfile(
                 accountService.insert(account)
         );
+    }
+
+    public void deleteUser(User user) {
+        if (user.getAccount() != null) {
+            throw new CutbackException(
+                    "User has account",
+                    ErrorCode.BAD_REQUEST
+            );
+        }
+
+        userService.delete(user);
     }
 
     public void updatePreferences(User user,
@@ -136,5 +147,23 @@ public class ProfileFacade {
         authRequest.setUsername(user.getUsername());
         authRequest.setPassword(extendedChangePasswordRequest.getNewPassword());
         return authFacade.login(authRequest, bindingResult);
+    }
+
+    public byte[] changeImage(User user,
+                              MultipartFile imageFile) {
+        Image image = imageManager.save(imageFile);
+        Account account = user.getAccount();
+        account.setImage(image);
+        accountService.update(account, account);
+
+        return imageManager.get(image, Size.MEDIUM);
+    }
+
+    public byte[] getImage(User user,
+                                  Size size) {
+        return imageManager.get(
+                user.getAccount().getImage(),
+                size
+        );
     }
 }

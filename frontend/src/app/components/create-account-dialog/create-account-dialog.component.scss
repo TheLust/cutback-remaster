@@ -2,6 +2,10 @@ mat-form-field {
   width: 100%;
 }
 
+mat-dialog-actions {
+  justify-content: space-between;
+}
+
 #title {
   text-align: center;
 }

@@ -45,42 +45,46 @@ export class PreferencesService extends Service {
   }
 
   public setLanguage(language: Language) {
-    lastValueFrom(
-      this.http.put(
-        this.PREFERENCES_URL,
-        {
-          language: language.toUpperCase(),
-          theme: this.themeService.getCookie().toUpperCase()
-        } as Preferences,
-        {
-          responseType: 'text',
-          headers: this.getHeaders()
-        }
-      )
-    ).then(() => {
-    }).catch(() => {
-      this.notificationService.fireErrorNotification('error.updatePreferences');
-    });
+    if (this.checkToken()) {
+      lastValueFrom(
+        this.http.put(
+          this.PREFERENCES_URL,
+          {
+            language: language.toUpperCase(),
+            theme: this.themeService.getCookie().toUpperCase()
+          } as Preferences,
+          {
+            responseType: 'text',
+            headers: this.getHeaders()
+          }
+        )
+      ).then(() => {
+      }).catch(() => {
+        this.notificationService.fireErrorNotification('error.updatePreferences');
+      });
+    }
     this.languageService.set(language);
   }
 
   public setTheme(theme: Theme) {
-    lastValueFrom(
-      this.http.put(
-        this.PREFERENCES_URL,
-        {
-          language: this.languageService.getCookie().toUpperCase(),
-          theme: theme.toUpperCase()
-        } as Preferences,
-        {
-          responseType: 'text',
-          headers: this.getHeaders()
-        }
-      )
-    ).then(() => {
-    }).catch(() => {
-      this.notificationService.fireErrorNotification('error.updatePreferences');
-    });
+    if (this.checkToken()) {
+      lastValueFrom(
+        this.http.put(
+          this.PREFERENCES_URL,
+          {
+            language: this.languageService.getCookie().toUpperCase(),
+            theme: theme.toUpperCase()
+          } as Preferences,
+          {
+            responseType: 'text',
+            headers: this.getHeaders()
+          }
+        )
+      ).then(() => {
+      }).catch(() => {
+        this.notificationService.fireErrorNotification('error.updatePreferences');
+      });
+    }
     this.themeService.set(theme);
   }
 
@@ -90,5 +94,13 @@ export class PreferencesService extends Service {
 
   public checkTheme(theme: Theme): boolean {
     return this.themeService.check(theme);
+  }
+
+  public getLanguage() {
+    return this.languageService.getCookie();
+  }
+
+  public getTheme() {
+    return this.themeService.getCookie();
   }
 }

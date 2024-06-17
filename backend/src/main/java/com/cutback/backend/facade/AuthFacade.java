@@ -8,7 +8,7 @@ import com.cutback.backend.model.auth.User;
 import com.cutback.backend.model.auth.UserDetails;
 import com.cutback.backend.model.auth.Role;
 import com.cutback.backend.security.JwtUtils;
-import com.cutback.backend.service.impl.UserService;
+import com.cutback.backend.service.impl.account.UserService;
 import com.cutback.backend.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
