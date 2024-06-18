@@ -2,6 +2,7 @@ package com.cutback.backend.model.account;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
+import com.cutback.backend.model.PersonalCode;
 import com.cutback.backend.model.auth.User;
 import com.cutback.backend.model.image.Image;
 import jakarta.persistence.*;
@@ -32,6 +33,9 @@ public class Account {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Preferences preferences;
+
+    @OneToOne(mappedBy = "account")
+    private PersonalCode personalCode;
 
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)
     private String firstName;

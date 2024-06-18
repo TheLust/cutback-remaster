@@ -22,6 +22,8 @@ import { toProfile } from "../../models/mapper/model-mapper";
 import { DialogService } from "../../services/dialog/dialog.service";
 import { Router } from "@angular/router";
 import { ErrorService } from "../../services/error/error.service";
+import { HttpClient } from "@angular/common/http";
+import { Size } from "../../models/request/size";
 
 @Component({
   selector: 'app-header',
@@ -47,25 +49,55 @@ import { ErrorService } from "../../services/error/error.service";
 })
 export class HeaderComponent {
 
+  loaded: boolean = false;
+
   @Output() profileChange: EventEmitter<Profile>;
   @Input() profile: Profile | undefined;
   @Input() sidenav: MatSidenav | undefined;
+
+  image: string = '';
 
   readonly languages: Language[] = Object.values(Language);
   readonly themes: Theme[] = Object.values(Theme);
 
   constructor(public preferencesService: PreferencesService,
+              private http: HttpClient,
               private router: Router,
               private profileService: ProfileService,
               private dialogService: DialogService,
               private errorService: ErrorService,
               private dialog: MatDialog) {
     this.profileChange = new EventEmitter<Profile>;
+
+    this.profileService.getImage(Size.ORIGINAL)
+      .then(image => {
+        this.image = URL.createObjectURL(image);
+        this.loaded = true;
+      }).catch(() => {
+        this.http.get('/assets/images/avatar-placeholder.png', { responseType: 'blob' })
+          .subscribe(res => {
+            this.image = URL.createObjectURL(res);
+            this.loaded = true;
+          });
+      })
+
+    profileService.reloadImage.subscribe(() => {
+      this.profileService.getImage(Size.ORIGINAL)
+        .then(image => {
+          this.image = URL.createObjectURL(image);
+        }).catch(() => {
+        this.http.get('/assets/images/avatar-placeholder.png', { responseType: 'blob' })
+          .subscribe(res => {
+            this.image = URL.createObjectURL(res);
+          });
+      })
+    });
   }
 
   public toggleSidenav(): void {
     if (this.sidenav) {
-      this.sidenav.toggle().then(() => {});
+      this.sidenav.toggle().then(() => {
+      });
     }
   }
 
@@ -120,6 +152,7 @@ export class HeaderComponent {
           this.profileService.deleteToken();
           this.profileChange.emit(undefined);
           this.router.navigate(['home']).then();
+          this.profileService.reloadImage.next(true);
         }
       });
   }
@@ -131,16 +164,17 @@ export class HeaderComponent {
       .then((value: Profile) => {
         profile = toProfile(value);
         this.profileChange.emit(profile);
+        this.profileService.reloadImage.next(true);
       }).catch(error => {
-        const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
-        if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
-          this.createAccountForUser()
-        } else {
-          this.errorService.handle(errorResponse);
-        }
-      }).finally(() => {
-        this.preferencesService.setPreferences(profile);
-      });
+      const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
+      if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
+        this.createAccountForUser()
+      } else {
+        this.errorService.handle(errorResponse);
+      }
+    }).finally(() => {
+      this.preferencesService.setPreferences(profile);
+    });
   }
 
   private createAccountForUser() {

@@ -108,3 +108,24 @@ $error-text-color: var(--mat-app-text-color);
     background-color: transparent;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--mdc-outlined-card-outline-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--mat-app-text-color);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

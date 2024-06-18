@@ -8,11 +8,13 @@ import com.cutback.backend.dto.response.Profile;
 import com.cutback.backend.exception.CutbackException;
 import com.cutback.backend.exception.ValidationException;
 import com.cutback.backend.mapper.Mapper;
+import com.cutback.backend.model.PersonalCode;
 import com.cutback.backend.model.account.Account;
 import com.cutback.backend.model.account.Preferences;
 import com.cutback.backend.model.auth.User;
 import com.cutback.backend.model.image.Image;
 import com.cutback.backend.model.image.Size;
+import com.cutback.backend.service.impl.PersonalCodeService;
 import com.cutback.backend.service.impl.account.AccountService;
 import com.cutback.backend.service.impl.account.UserService;
 import com.cutback.backend.service.impl.image.ImageManager;
@@ -20,17 +22,32 @@ import com.cutback.backend.validator.AccountValidator;
 import com.cutback.backend.validator.ChangePasswordValidator;
 import com.cutback.backend.validator.PreferencesValidator;
 import com.cutback.backend.validator.UserValidator;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class ProfileFacade {
 
+    @Value("${code.expiration.time}")
+    long codeExpirationTime;
+
+    private final PersonalCodeService personalCodeService;
     private final AuthFacade authFacade;
     private final UserService userService;
     private final AccountService accountService;
@@ -106,6 +123,7 @@ public class ProfileFacade {
         updatedAccount.setId(account.getId());
         updatedAccount.setUser(user);
         updatedAccount.getPreferences().setId(account.getPreferences().getId());
+        updatedAccount.setImage(account.getImage());
 
         if (!user.getUsername().equals(profile.getUsername())) {
             user.setUsername(profile.getUsername());
@@ -162,9 +180,50 @@ public class ProfileFacade {
 
     public byte[] getImage(User user,
                            Size size) {
+        if (user.getAccount().getImage() == null) {
+            throw new CutbackException("Account without image", ErrorCode.NOT_FOUND);
+        }
+
         return imageManager.get(
                 user.getAccount().getImage(),
                 size
         );
+    }
+
+    public byte[] getQRCode(User user) {
+        UUID uuid = getCode(user).getUuid();
+        try {
+            BitMatrix matrix = new MultiFormatWriter().encode(
+                    new String(uuid.toString().getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8),
+                    BarcodeFormat.QR_CODE, 500, 500);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(MatrixToImageWriter.toBufferedImage(matrix), "jpg", baos);
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new CutbackException(
+                    String.format("Could not generate qr code, cause = [%s]", e.getMessage()),
+                    ErrorCode.INTERNAL_ERROR
+            );
+        }
+    }
+
+    private PersonalCode getCode(User user) {
+        Account account = user.getAccount();
+        PersonalCode currentCode = account.getPersonalCode();
+        if (currentCode != null) {
+            if (currentCode.isExpired()) {
+                personalCodeService.delete(currentCode);
+            } else {
+                return currentCode;
+            }
+        }
+
+        PersonalCode personalCode = new PersonalCode();
+        personalCode.setAccount(account);
+        personalCode.setCreatedAt(LocalDateTime.now());
+        personalCode.setExpiresAt(personalCode.getCreatedAt().plusMinutes(codeExpirationTime));
+
+        return personalCodeService.insert(personalCode);
     }
 }

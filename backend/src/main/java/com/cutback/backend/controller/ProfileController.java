@@ -3,6 +3,7 @@ package com.cutback.backend.controller;
 import com.cutback.backend.dto.request.ChangePasswordRequest;
 import com.cutback.backend.dto.response.Profile;
 import com.cutback.backend.facade.ProfileFacade;
+import com.cutback.backend.model.PersonalCode;
 import com.cutback.backend.model.auth.UserDetails;
 import com.cutback.backend.model.image.Size;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -96,6 +105,14 @@ public class ProfileController {
                         userDetails.getUser(),
                         size
                 ),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/qr-code")
+    public ResponseEntity<byte[]> getQRCode(@AuthenticationPrincipal UserDetails userDetails) {
+        return new ResponseEntity<>(
+                profileFacade.getQRCode(userDetails.getUser()),
                 HttpStatus.OK
         );
     }

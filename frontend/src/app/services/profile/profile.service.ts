@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Service } from "../service";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { lastValueFrom } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, lastValueFrom } from "rxjs";
 import { Profile } from "../../models/response/profile";
 import { ChangePasswordRequest } from '../../models/request/change-password-request';
 import { Size } from "../../models/request/size";
@@ -12,6 +12,8 @@ import { Size } from "../../models/request/size";
 export class ProfileService extends Service {
 
   readonly PROFILE_URL = this.API_URL + 'profile';
+  public reloadImage: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public reloadQRCode: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient) {
     super();
@@ -104,5 +106,17 @@ export class ProfileService extends Service {
               }
           )
       );
+  }
+
+  public getCode(): Promise<Blob> {
+    return lastValueFrom(
+      this.httpClient.get(
+        this.PROFILE_URL + "/qr-code",
+        {
+          responseType: 'blob',
+          headers: this.getHeaders()
+        }
+      )
+    );
   }
 }

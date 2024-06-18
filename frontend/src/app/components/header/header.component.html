@@ -7,12 +7,12 @@
     <h1>{{ 'title' | transloco }}</h1>
   </div>
   <div class="header-container">
-    <button mat-icon-button
+    <button *ngIf="loaded"
+            mat-icon-button
             class="profile-button"
             [matMenuTriggerFor]="profileMenu">
-      <img [ngSrc]="'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-1.jpg'"
-           alt="profile-image"
-           fill="fill">
+      <img [src]="image"
+           alt="profile-image">
     </button>
 <!--    <mat-divider [vertical]="true"></mat-divider>-->
     <button mat-icon-button

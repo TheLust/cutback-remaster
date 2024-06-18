@@ -118,6 +118,7 @@ export class CreateAccountDialogComponent extends BaseFormComponent {
           if (this.imageBlob) {
             this.profileService.changeImage(this.imageBlob)
               .then(profile => {
+                this.profileService.reloadImage.next(true);
                 this.dialogRef.close(profile);
               }).catch(error => {
                 this.notificationService.fireErrorNotification('error.setImage');

@@ -6,7 +6,9 @@ import { Profile } from "./models/response/profile";
 import { ProfileService } from "./services/profile/profile.service";
 import { ErrorCode, ErrorResponse } from "./models/error/error-response";
 import { MatDialog } from "@angular/material/dialog";
-import { CreateAccountDialogComponent } from "./components/dialog/create-account-dialog/create-account-dialog.component";
+import {
+  CreateAccountDialogComponent
+} from "./components/dialog/create-account-dialog/create-account-dialog.component";
 import { PreferencesService } from "./services/preferences/preferences.service";
 import { toProfile } from "./models/mapper/model-mapper";
 import { ErrorService } from "./services/error/error.service";
@@ -37,29 +39,25 @@ export class AppComponent {
               private router: Router,
               private dialog: MatDialog) {
     this.preferencesService.setPreferences(this.profile);
-    this.setUp();
-  }
-
-  public navigateTo(location: string): Promise<boolean> {
-    return this.router.navigate([location]);
-  }
-
-  private setUp() {
     if (this.profileService.checkToken()) {
       this.profileService.get()
         .then(value => {
           this.profile = toProfile(value);
         }).catch(error => {
-          const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
-          if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
-            this.createAccountForUser();
-          } else {
-            this.errorService.handle(errorResponse);
-          }
-        }).finally(() => {
+        const errorResponse: ErrorResponse = this.errorService.parseErrorResponse(error);
+        if (errorResponse.errorCode == ErrorCode.USER_WO_ACCOUNT) {
+          this.createAccountForUser();
+        } else {
+          this.errorService.handle(errorResponse);
+        }
+      }).finally(() => {
         this.preferencesService.setPreferences(this.profile);
       });
     }
+  }
+
+  public navigateTo(location: string): Promise<boolean> {
+    return this.router.navigate([location]);
   }
 
   private createAccountForUser() {

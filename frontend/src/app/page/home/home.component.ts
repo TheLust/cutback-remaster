@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { ProfileService } from "../../services/profile/profile.service";
 
 @Component({
   selector: 'app-home',
@@ -8,5 +10,22 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  QRCode: string = '';
 
+  constructor(private http: HttpClient,
+              private profileService: ProfileService) {
+    this.profileService.reloadQRCode.subscribe(() => {
+      this.profileService.getCode()
+        .then(blob => {
+          this.QRCode = URL.createObjectURL(blob);
+        }).catch(() => {
+        this.http.get('/assets/images/qr-placeholder.jpg', {responseType: 'blob'})
+          .subscribe(res => {
+            this.QRCode = URL.createObjectURL(res);
+          });
+      });
+    });
+
+    this.profileService.reloadQRCode.next(true);
+  }
 }
