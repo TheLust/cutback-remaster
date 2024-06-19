@@ -3,7 +3,6 @@ package com.cutback.backend.controller;
 import com.cutback.backend.dto.request.ChangePasswordRequest;
 import com.cutback.backend.dto.response.Profile;
 import com.cutback.backend.facade.ProfileFacade;
-import com.cutback.backend.model.PersonalCode;
 import com.cutback.backend.model.auth.UserDetails;
 import com.cutback.backend.model.image.Size;
 import lombok.RequiredArgsConstructor;

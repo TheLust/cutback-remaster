@@ -1,10 +1,16 @@
-.qr-container {
-  width: 100%;
+.background-img {
+  height: calc(100vh - 75px);
   display: flex;
-  justify-content: center;
+  align-items: center;
 
-  img {
-    width: 200px;
-    height: auto;
+  .qr-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 200px;
+      height: auto;
+    }
   }
 }

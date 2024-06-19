@@ -2,8 +2,8 @@ package com.cutback.backend.model.account;
 
 import com.cutback.backend.constant.ConstraintViolationCodes;
 import com.cutback.backend.constant.Constraints;
-import com.cutback.backend.model.PersonalCode;
 import com.cutback.backend.model.auth.User;
+import com.cutback.backend.model.company.Company;
 import com.cutback.backend.model.image.Image;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +38,12 @@ public class Account {
 
     @OneToOne(mappedBy = "account")
     private PersonalCode personalCode;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Company> ownerOf = new ArrayList<>();
+
+    @ManyToOne
+    private Company employeeOf;
 
     @NotBlank(message = ConstraintViolationCodes.REQUIRED)
     private String firstName;

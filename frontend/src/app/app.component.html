@@ -2,17 +2,21 @@
   <mat-sidenav #sidenav>
     <div id="sidenav-container">
       <div id="title-container">
-        <h2>Menu</h2>
+        <h2>{{ 'menu.title' | transloco }}</h2>
       </div>
       <button mat-menu-item
               (click)="navigateTo('home')">
-        <mat-icon>
-          home
-        </mat-icon>
-        <h4>
-          Hoe, oops Home
-        </h4>
+        <mat-icon>home</mat-icon>
+        <h4>{{ 'menu.home' | transloco }}</h4>
       </button>
+
+      <ng-container *ngIf="isAdmin()">
+        <h3>{{ 'menu.admin' | transloco }}</h3>
+        <button mat-menu-item (click)="navigateTo('companies')">
+          <mat-icon>dashboard_customize</mat-icon>
+          <h4>{{ 'menu.companies' | transloco }}</h4>
+        </button>
+      </ng-container>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>

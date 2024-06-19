@@ -1,11 +1,9 @@
 package com.cutback.backend.repository;
 
-import com.cutback.backend.model.PersonalCode;
-import com.cutback.backend.model.auth.User;
+import com.cutback.backend.model.account.PersonalCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository

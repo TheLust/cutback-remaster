@@ -5,35 +5,51 @@
     "signUp": "Înregistrare",
     "badCredentials": "Nume de utilizator sau parolă incorecte",
     "finish": "Finalizare",
-    "signOut": "Deconectare"
+    "signOut": "Deconectare",
+    "createAccount": "Creează cont",
+    "cancel": "Anulare"
   },
   "field": {
-    "username": "Nume de utilizator",
-    "password": "Parolă",
+    "username": "Numele de utilizator",
+    "password": "Parola",
     "firstName": "Prenume",
     "lastName": "Nume",
     "gender": "Gen",
     "birthDate": "Data nașterii",
     "email": "Email",
-    "phoneNumber": "Număr de telefon"
+    "phoneNumber": "Număr de telefon",
+    "language": "Limbă",
+    "theme": "Temă",
+    "currentPassword": "Parola actuală",
+    "newPassword": "Parola nouă",
+    "confirmNewPassword": "Confirmă parola"
   },
   "gender": {
-    "male": "Bărbat",
-    "female": "Femeie",
+    "male": "Masculin",
+    "female": "Feminin",
     "other": "Altul"
   },
   "violationCode": {
-    "required": "este obligatoriu",
+    "required": "este necesar",
     "minlength": "trebuie să aibă cel puțin {requiredLength} caractere",
-    "maxlength": "trebuie să aibă {requiredLength} sau mai puține caractere",
+    "maxlength": "trebuie să aibă {requiredLength} caractere sau mai puțin",
     "email": "nu este valid",
     "phoneNumber": "nu este valid",
-    "unique": "deja există",
+    "unique": "există deja",
     "validatePhoneNumber": "nu este valid",
-    "past": "trebuie să fie în trecut"
+    "past": "trebuie să fie în trecut",
+    "incorrect": "este incorect",
+    "match": "nu se potrivește",
+    "same": "nu poate fi cel actual"
   },
   "profile": {
-    "title": "Profil"
+    "title": "Profil",
+    "greeting": "Bună",
+    "preferences": "Preferințe",
+    "cancel": "Anulare",
+    "changePassword": "Schimbă parola",
+    "save": "Salvează",
+    "edit": "Editează"
   },
   "language": {
     "title": "Limbă",
@@ -42,12 +58,38 @@
   },
   "theme": {
     "title": "Temă",
-    "light": "Deschisă",
-    "dark": "Întunecată"
+    "light": "Luminos",
+    "dark": "Întunecat"
   },
-  "alert": {
-    "exit": "Ieșire",
-    "signOutWarning": "Sigur doriți să vă deconectați?",
-    "cancel": "Anulare"
+  "confirmDialog": {
+    "default": {
+      "title": "Confirmare",
+      "text": "Ești sigur că vrei să continui?",
+      "cancel": "Anulare",
+      "confirm": "Confirmă"
+    },
+    "signOut": {
+      "title": "Ieșire",
+      "text": "Ești sigur că vrei să te deconectezi?",
+      "cancel": "Anulare",
+      "confirm": "Deconectare"
+    }
+  },
+  "error": {
+    "error": "Eroare",
+    "updatePreferences": "Nu s-au putut actualiza preferințele contului",
+    "setImage": "Nu s-a putut seta imaginea de profil",
+    "changeImage": "Nu s-a putut schimba imaginea de profil"
+  },
+  "changePassword": {
+    "title": "Schimbă parola",
+    "cancel": "Anulare",
+    "submit": "Trimite"
+  },
+  "menu": {
+    "title": "Menu",
+    "home": "Home",
+    "admin": "Admin",
+    "companies": "Companies"
   }
 }

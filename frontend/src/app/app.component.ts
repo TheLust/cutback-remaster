@@ -14,6 +14,9 @@ import { toProfile } from "./models/mapper/model-mapper";
 import { ErrorService } from "./services/error/error.service";
 import { MatMenuItem } from "@angular/material/menu";
 import { MatIcon } from "@angular/material/icon";
+import { Role } from "./models/response/role";
+import { NgIf } from "@angular/common";
+import { TranslocoPipe } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-root',
@@ -25,7 +28,9 @@ import { MatIcon } from "@angular/material/icon";
     MatSidenav,
     HeaderComponent,
     MatMenuItem,
-    MatIcon
+    MatIcon,
+    NgIf,
+    TranslocoPipe
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -58,6 +63,10 @@ export class AppComponent {
 
   public navigateTo(location: string): Promise<boolean> {
     return this.router.navigate([location]);
+  }
+
+  public isAdmin(): boolean {
+    return !!(this.profile && this.profile.role === Role.ADMIN);
   }
 
   private createAccountForUser() {

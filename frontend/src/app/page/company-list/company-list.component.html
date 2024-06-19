@@ -1,0 +1,15 @@
+<mat-grid-list [cols]="breakpoint"
+               rowHeight="2:1"
+               (resize)="onResize($event)">
+  <mat-grid-tile *ngFor="let company of companies">
+<!--    <mat-grid-tile-header>{{ company.name }}</mat-grid-tile-header>-->
+    <div class="card">
+      <div class="info-container">
+        <h3>{{ company.name }}</h3>
+      </div>
+      <div class="image-container">
+        <img [src]="company.image.uuid" alt="">
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

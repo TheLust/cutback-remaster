@@ -24,6 +24,7 @@ import { Router } from "@angular/router";
 import { ErrorService } from "../../services/error/error.service";
 import { HttpClient } from "@angular/common/http";
 import { Size } from "../../models/request/size";
+import { Role } from "../../models/response/role";
 
 @Component({
   selector: 'app-header',
@@ -74,19 +75,19 @@ export class HeaderComponent {
         this.image = URL.createObjectURL(image);
         this.loaded = true;
       }).catch(() => {
-        this.http.get('/assets/images/avatar-placeholder.png', { responseType: 'blob' })
-          .subscribe(res => {
-            this.image = URL.createObjectURL(res);
-            this.loaded = true;
-          });
-      })
+      this.http.get('/assets/images/avatar-placeholder.png', {responseType: 'blob'})
+        .subscribe(res => {
+          this.image = URL.createObjectURL(res);
+          this.loaded = true;
+        });
+    })
 
     profileService.reloadImage.subscribe(() => {
       this.profileService.getImage(Size.ORIGINAL)
         .then(image => {
           this.image = URL.createObjectURL(image);
         }).catch(() => {
-        this.http.get('/assets/images/avatar-placeholder.png', { responseType: 'blob' })
+        this.http.get('/assets/images/avatar-placeholder.png', {responseType: 'blob'})
           .subscribe(res => {
             this.image = URL.createObjectURL(res);
           });

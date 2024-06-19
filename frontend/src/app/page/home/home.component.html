@@ -1,4 +1,6 @@
-<p>This is the best home page ever!</p>
-<div class="qr-container">
-  <img [src]="QRCode" alt="qr">
+<div class="background-img"
+     [ngStyle]="{backgroundImage: 'url(' + backgroundImage + ')'}">
+  <div class="qr-container">
+    <img [src]="QRCode" alt="qr">
+  </div>
 </div>

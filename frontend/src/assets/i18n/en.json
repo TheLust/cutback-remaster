@@ -85,5 +85,11 @@
     "title": "Change password",
     "cancel": "Cancel",
     "submit": "Submit"
+  },
+  "menu": {
+    "title": "Menu",
+    "home": "Home",
+    "admin": "Admin",
+    "companies": "Companies"
   }
 }
